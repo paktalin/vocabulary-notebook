@@ -1,4 +1,4 @@
-package com.paktalin.vocabularynotebook
+package com.paktalin.vocabularynotebook.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -10,19 +10,21 @@ import com.google.android.gms.signin.SignIn
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_log_in.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.paktalin.vocabularynotebook.R
+import com.paktalin.vocabularynotebook.User
 
-class SignInActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        setContentView(R.layout.activity_log_in)
 
         mAuth = FirebaseAuth.getInstance()
-        btnSignIn!!.setOnClickListener({ signIn() })
+        btnLogIn!!.setOnClickListener({ signIn() })
         btnSignUp!!.setOnClickListener({ signUp() })
     }
 
@@ -45,7 +47,7 @@ class SignInActivity : AppCompatActivity() {
                         }
                         else {
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(this@SignInActivity, "Authentication failed.",
+                            Toast.makeText(this@LogInActivity, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -68,7 +70,7 @@ class SignInActivity : AppCompatActivity() {
                         }
                         else {
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(this@SignInActivity, "Authentication failed.",
+                            Toast.makeText(this@LogInActivity, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -77,13 +79,13 @@ class SignInActivity : AppCompatActivity() {
 
     private fun startUserActivity() {
         Log.d(TAG, "Signed in successfully")
-        val userActivityIntent = Intent(this@SignInActivity, UserActivity::class.java)
+        val userActivityIntent = Intent(this@LogInActivity, UserActivity::class.java)
         startActivity(userActivityIntent)
     }
 
     private fun fieldsNotEmpty(email: String, password: String): Boolean {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this@SignInActivity, "Please, enter email and password", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LogInActivity, "Please, enter email and password", Toast.LENGTH_SHORT).show()
             return false
         }
         return true

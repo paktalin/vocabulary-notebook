@@ -3,7 +3,7 @@ package com.paktalin.vocabularynotebook;
 public class User {
     private String email, name;
 
-    User(String email) {
+    public User(String email) {
         this.email = email;
     }
 
