@@ -1,5 +1,6 @@
 package com.paktalin.vocabularynotebook.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_log_in.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.User
+import com.paktalin.vocabularynotebook.Vocabulary
+import java.util.*
 
 class LogInActivity : AppCompatActivity() {
 
@@ -26,6 +29,7 @@ class LogInActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         btnLogIn!!.setOnClickListener({ signIn() })
         btnSignUp!!.setOnClickListener({ signUp() })
+        btnRandomUser!!.setOnClickListener({ createRandomUser() })
     }
 
     override fun onStart() {
@@ -93,12 +97,28 @@ class LogInActivity : AppCompatActivity() {
 
     private fun addNewUserToDb(newUser: FirebaseUser) {
         //todo add condition to writing to the db in Firebase Console (request.auth.uid)
+        //todo delete account if couldn't add user to the db
         val db = FirebaseFirestore.getInstance()
-        db.collection("users").document(newUser.uid).set(User(newUser.email))
-                .addOnCompleteListener({ task ->
-                    if (task.isSuccessful) Log.i(TAG, "Successfully added user to the collection")
-                    else Log.w(TAG, "addUser:failure", task.exception)
-                })
+        val user = User(newUser.email)
+
+        db.collection("vocabularies").add(Vocabulary())
+                .addOnSuccessListener { firstVocabularyRef ->
+                    Log.d(TAG, "Vocabulary successfully created: " + firstVocabularyRef.path)
+                    user.vocabularies = Collections.singletonList(firstVocabularyRef)
+
+                    db.collection("users").document(newUser.uid).set(user)
+                            .addOnCompleteListener({ task ->
+                                if (task.isSuccessful) Log.i(TAG, "Successfully added user to the collection")
+                                else Log.w(TAG, "addUser:failure", task.exception)
+                            })
+                }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun createRandomUser() {
+        etEmail.setText("random@gmail.com")
+        etPassword.setText("123456")
+        signUp()
     }
 
     companion object {
