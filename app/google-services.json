@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1083324891291",
+    "firebase_url": "https://vocabularynotebook-a8903.firebaseio.com",
+    "project_id": "vocabularynotebook-a8903",
+    "storage_bucket": "vocabularynotebook-a8903.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083324891291:android:62b6679965117823",
+        "android_client_info": {
+          "package_name": "com.paktalin.vocabularynotebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083324891291-okq7huurq1sh8kesjafchqs9e81q92g3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paktalin.vocabularynotebook",
+            "certificate_hash": "3c18302b37eb00c312159e5ed52f31f512fa69bb"
+          }
+        },
+        {
+          "client_id": "1083324891291-t4pvh4ujn7q7a91pg94c5j55u9a0r3qa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW96ad66RMA4zBQFp8azA8yniq8O4vtTk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083324891291-t4pvh4ujn7q7a91pg94c5j55u9a0r3qa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
