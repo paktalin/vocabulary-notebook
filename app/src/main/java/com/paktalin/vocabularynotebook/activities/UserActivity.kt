@@ -6,15 +6,22 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_user.*
 
 class UserActivity : AppCompatActivity() {
 
+    private lateinit var userDocument: DocumentReference
+    private val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+
+        extractUserDocument()
         printUserData()
     }
 
@@ -23,15 +30,29 @@ class UserActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun printUserData() {
+    private fun extractUserDocument() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         Log.d(TAG, "retrieved userId: $userId")
-        val db = FirebaseFirestore.getInstance()
+        userDocument = db.collection("users").document(userId)
+    }
 
-        db.collection("users").document(userId).get().addOnSuccessListener { task ->
+    @SuppressLint("SetTextI18n")
+    private fun printUserData() {
+        userDocument.get().addOnSuccessListener { task ->
             val email = task.get("email").toString()
-            tvUserData.text = "email: $email"
+            tvUserData.text = email
+
+            retrieveVocabulary(task)
+        }
+    }
+
+    private fun retrieveVocabulary(task: DocumentSnapshot) {
+        val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
+        val firstVocab = vocabularies[0].id
+        db.collection("vocabularies").document(firstVocab).get().addOnSuccessListener { task ->
+            val vocabTitle = task.get("title").toString()
+            tvUserData.append("\n\nvocabularies:\n$vocabTitle")
+
         }
     }
 
