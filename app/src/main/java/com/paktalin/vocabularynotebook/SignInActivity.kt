@@ -9,7 +9,9 @@ import android.widget.Toast
 import com.google.android.gms.signin.SignIn
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignInActivity : AppCompatActivity() {
 
@@ -37,7 +39,10 @@ class SignInActivity : AppCompatActivity() {
         if (fieldsNotEmpty(email, password)) {
             mAuth!!.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful) startUserActivity()
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Successfully signed in")
+                            startUserActivity()
+                        }
                         else {
                             Log.w(TAG, "signInWithEmail:failure", task.exception)
                             Toast.makeText(this@SignInActivity, "Authentication failed.",
@@ -45,7 +50,6 @@ class SignInActivity : AppCompatActivity() {
                         }
                     }
         }
-
     }
 
     private fun signUp() {
@@ -53,21 +57,26 @@ class SignInActivity : AppCompatActivity() {
         val password = etPassword!!.text.toString()
 
         if (fieldsNotEmpty(email, password)) {
+            //todo check if the password is good
+            // todo verify email
             mAuth!!.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) startUserActivity()
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "Successfully signed up a new user")
+                            addNewUserToDb(mAuth!!.currentUser!!)
+                            startUserActivity()
+                        }
                         else {
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
                             Toast.makeText(this@SignInActivity, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show()
                         }
                     }
-
         }
     }
 
     private fun startUserActivity() {
-        Log.d(TAG, "Signed in successfully");
+        Log.d(TAG, "Signed in successfully")
         val userActivityIntent = Intent(this@SignInActivity, UserActivity::class.java)
         startActivity(userActivityIntent)
     }
@@ -78,6 +87,16 @@ class SignInActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    private fun addNewUserToDb(newUser: FirebaseUser) {
+        //todo add condition to writing to the db in Firebase Console (request.auth.uid)
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users").document(newUser.uid).set(User(newUser.email))
+                .addOnCompleteListener({ task ->
+                    if (task.isSuccessful) Log.i(TAG, "Successfully added user to the collection")
+                    else Log.w(TAG, "addUser:failure", task.exception)
+                })
     }
 
     companion object {
