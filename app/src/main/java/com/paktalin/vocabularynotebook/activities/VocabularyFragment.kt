@@ -75,22 +75,7 @@ class VocabularyFragment : Fragment() {
             val vocabularyTitle = task.get("title").toString()
             tvUserData.append("\n\nvocabularies:\n$vocabularyTitle")
         }
-        val mLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = mLayoutManager
-        recyclerView.setHasFixedSize(true)
-
-        val items: List<WordItemPojo> = Arrays.asList(
-                WordItemPojo("uno", "one"),
-                WordItemPojo("due", "two"),
-                WordItemPojo("tre", "three"))
-        val adapter = VocabularyAdapter(items)
-        recyclerView.adapter = adapter
-
-        /*vocabulary.collection(WORDS).get().addOnSuccessListener {
-            val items: List<String> = Arrays.asList("one", "two", "three")
-            val adapter = VocabularyAdapter(items)
-            recyclerView.adapter = adapter
-        }*/
+        retrieveWordsFromVocabulary()
     }
 
     private fun addWord() {
@@ -100,6 +85,21 @@ class VocabularyFragment : Fragment() {
     }
 
     private fun retrieveWordsFromVocabulary() {
+        val mLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.setHasFixedSize(true)
 
+        vocabulary.collection(WORDS).get().addOnSuccessListener {
+            val wordItems: MutableList<WordItemPojo> = mutableListOf()
+
+            for (ref in it.documents) {
+                val word = ref.get("word").toString()
+                val translation = ref.get("translation").toString()
+                wordItems.add(WordItemPojo(word, translation))
+            }
+
+            val adapter = VocabularyAdapter(wordItems)
+            recyclerView.adapter = adapter
+        }
     }
 }
