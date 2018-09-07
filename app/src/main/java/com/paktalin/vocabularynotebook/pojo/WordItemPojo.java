@@ -1,10 +1,10 @@
 package com.paktalin.vocabularynotebook.pojo;
 
-public class WordPojo {
+public class WordItemPojo {
 
     private String word, translation;
 
-    public WordPojo(String word, String translation) {
+    public WordItemPojo(String word, String translation) {
         this.word = word;
         this.translation = translation;
     }

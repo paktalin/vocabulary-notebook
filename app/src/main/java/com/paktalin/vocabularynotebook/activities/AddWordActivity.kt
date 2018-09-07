@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.Utils
-import com.paktalin.vocabularynotebook.pojo.WordPojo
+import com.paktalin.vocabularynotebook.pojo.WordItemPojo
 import kotlinx.android.synthetic.main.activity_add_word.*
 
 class AddWordActivity : AppCompatActivity() {
@@ -35,7 +35,7 @@ class AddWordActivity : AppCompatActivity() {
         val translation = etTranslation.text.toString()
         if (Utils.fieldsNotEmpty(word, translation, "Please, enter word and translation", this)) {
             db.collection(VOCABULARIES).document(vocabularyId)
-                    .collection(WORDS).add(WordPojo(word, translation)).addOnSuccessListener {
+                    .collection(WORDS).add(WordItemPojo(word, translation)).addOnSuccessListener {
                         Log.i(TAG, "Successfully added a new word $word")
                         clearFields()
                     }

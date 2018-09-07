@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,21 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
+import com.paktalin.vocabularynotebook.VocabularyAdapter
+import com.paktalin.vocabularynotebook.pojo.WordItemPojo
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
+import java.util.*
 
 class VocabularyFragment : Fragment() {
+    companion object {
+        private val TAG = "VN/" + VocabularyFragment::class.simpleName
+        private const val VOCABULARIES = "vocabularies"
+        private const val WORDS = "words"
+    }
 
     private lateinit var userDocument: DocumentReference
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var vocabularyId: String
+    private lateinit var vocabulary: DocumentReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
@@ -46,7 +55,7 @@ class VocabularyFragment : Fragment() {
     private fun setVocabularyId(task: DocumentSnapshot) {
         //todo if only one vocabulary exists, open it
         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
-        vocabularyId = vocabularies[0].id
+        vocabulary = db.collection(VOCABULARIES).document(vocabularies[0].id)
     }
 
     @SuppressLint("SetTextI18n")
@@ -62,18 +71,35 @@ class VocabularyFragment : Fragment() {
 
     private fun retrieveVocabularyData() {
         //todo if only one vocabulary exists, open it
-        db.collection("vocabularies").document(vocabularyId).get().addOnSuccessListener { task ->
-            val vocabTitle = task.get("title").toString()
-            tvUserData.append("\n\nvocabularies:\n$vocabTitle")
-
+        vocabulary.get().addOnSuccessListener { task ->
+            val vocabularyTitle = task.get("title").toString()
+            tvUserData.append("\n\nvocabularies:\n$vocabularyTitle")
         }
+        val mLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = mLayoutManager
+        recyclerView.setHasFixedSize(true)
+
+        val items: List<WordItemPojo> = Arrays.asList(
+                WordItemPojo("uno", "one"),
+                WordItemPojo("due", "two"),
+                WordItemPojo("tre", "three"))
+        val adapter = VocabularyAdapter(items)
+        recyclerView.adapter = adapter
+
+        /*vocabulary.collection(WORDS).get().addOnSuccessListener {
+            val items: List<String> = Arrays.asList("one", "two", "three")
+            val adapter = VocabularyAdapter(items)
+            recyclerView.adapter = adapter
+        }*/
     }
 
     private fun addWord() {
         val addWordIntent = Intent(activity, AddWordActivity::class.java)
-        addWordIntent.putExtra("vocabularyId", vocabularyId)
+        addWordIntent.putExtra("vocabularyId", vocabulary.id)
         startActivity(addWordIntent)
     }
 
-    companion object { private val TAG = "VN/" + VocabularyFragment::class.simpleName }
+    private fun retrieveWordsFromVocabulary() {
+
+    }
 }
