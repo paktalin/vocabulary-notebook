@@ -1,6 +1,7 @@
 package com.paktalin.vocabularynotebook.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -25,8 +26,14 @@ class VocabularyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        fabAddWord.setOnClickListener( { addWord() } )
         extractUserDocument()
         printUserData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FirebaseAuth.getInstance().signOut()
     }
 
     private fun extractUserDocument() {
@@ -56,9 +63,9 @@ class VocabularyFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        FirebaseAuth.getInstance().signOut()
+    private fun addWord() {
+        val addWordIntent = Intent(activity, AddWordActivity::class.java)
+        startActivity(addWordIntent)
     }
 
     companion object {
