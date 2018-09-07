@@ -2,6 +2,7 @@ package com.paktalin.vocabularynotebook.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 
@@ -10,7 +11,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
-import kotlinx.android.synthetic.main.activity_user.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class UserActivity : AppCompatActivity() {
 
@@ -19,7 +21,15 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+        setContentView(R.layout.activity_main)
+
+        val navigationView = findViewById<NavigationView>(R.id.navigationView)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            menuItem.isChecked = true
+            drawerLayout!!.closeDrawers()
+
+            true
+        }
 
         extractUserDocument()
         printUserData()
