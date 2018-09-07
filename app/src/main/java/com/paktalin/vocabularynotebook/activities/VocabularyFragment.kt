@@ -19,6 +19,7 @@ class VocabularyFragment : Fragment() {
 
     private lateinit var userDocument: DocumentReference
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var vocabularyId: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
@@ -42,21 +43,26 @@ class VocabularyFragment : Fragment() {
         userDocument = db.collection("users").document(userId)
     }
 
+    private fun setVocabularyId(task: DocumentSnapshot) {
+        //todo if only one vocabulary exists, open it
+        val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
+        vocabularyId = vocabularies[0].id
+    }
+
     @SuppressLint("SetTextI18n")
     private fun printUserData() {
         userDocument.get().addOnSuccessListener { task ->
             val email = task.get("email").toString()
             tvUserData.text = email
 
-            retrieveVocabulary(task)
+            setVocabularyId(task)
+            retrieveVocabularyData()
         }
     }
 
-    private fun retrieveVocabulary(task: DocumentSnapshot) {
+    private fun retrieveVocabularyData() {
         //todo if only one vocabulary exists, open it
-        val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
-        val firstVocab = vocabularies[0].id
-        db.collection("vocabularies").document(firstVocab).get().addOnSuccessListener { task ->
+        db.collection("vocabularies").document(vocabularyId).get().addOnSuccessListener { task ->
             val vocabTitle = task.get("title").toString()
             tvUserData.append("\n\nvocabularies:\n$vocabTitle")
 
@@ -65,10 +71,9 @@ class VocabularyFragment : Fragment() {
 
     private fun addWord() {
         val addWordIntent = Intent(activity, AddWordActivity::class.java)
+        addWordIntent.putExtra("vocabularyId", vocabularyId)
         startActivity(addWordIntent)
     }
 
-    companion object {
-        private val TAG = "VN/" + VocabularyFragment::class.simpleName
-    }
+    companion object { private val TAG = "VN/" + VocabularyFragment::class.simpleName }
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 
@@ -12,9 +11,9 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_log_in.*
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.UserManager
+import com.paktalin.vocabularynotebook.Utils
 
 class LogInActivity : AppCompatActivity() {
-
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class LogInActivity : AppCompatActivity() {
         val email = etEmail!!.text.toString()
         val password = etPassword!!.text.toString()
 
-        if (fieldsNotEmpty(email, password)) {
+        if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
             mAuth!!.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -59,7 +58,7 @@ class LogInActivity : AppCompatActivity() {
         val email = etEmail!!.text.toString()
         val password = etPassword!!.text.toString()
 
-        if (fieldsNotEmpty(email, password)) {
+        if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
             //todo check if the password is good
             // todo verify email
             mAuth!!.createUserWithEmailAndPassword(email, password)
@@ -78,14 +77,6 @@ class LogInActivity : AppCompatActivity() {
         Log.d(TAG, "Logged in successfully")
         val userActivityIntent = Intent(this@LogInActivity, MainActivity::class.java)
         startActivity(userActivityIntent)
-    }
-
-    private fun fieldsNotEmpty(email: String, password: String): Boolean {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this@LogInActivity, "Please, enter email and password", Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
     }
 
     @SuppressLint("SetTextI18n")
