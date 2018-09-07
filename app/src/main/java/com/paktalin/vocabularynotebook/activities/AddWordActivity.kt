@@ -1,5 +1,6 @@
 package com.paktalin.vocabularynotebook.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -8,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.Utils
-import com.paktalin.vocabularynotebook.WordPojo
+import com.paktalin.vocabularynotebook.pojo.WordPojo
 import kotlinx.android.synthetic.main.activity_add_word.*
 
 class AddWordActivity : AppCompatActivity() {
@@ -25,7 +26,8 @@ class AddWordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_word)
         vocabularyId = intent.getStringExtra("vocabularyId")
-        btnSubmitNewWord.setOnClickListener( { addWordToDb() })
+        btnSubmitNewWord.setOnClickListener { addWordToDb() }
+        btnCancel.setOnClickListener { cancel() }
     }
 
     private fun addWordToDb() {
@@ -42,6 +44,11 @@ class AddWordActivity : AppCompatActivity() {
                         Toast.makeText(this, "Couldn't add the word", Toast.LENGTH_SHORT).show()
                     }
         }
+    }
+
+    private fun cancel() {
+        val intentMainActivity = Intent(this, MainActivity::class.java)
+        startActivity(intentMainActivity)
     }
 
     private fun clearFields() {

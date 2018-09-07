@@ -1,4 +1,4 @@
-package com.paktalin.vocabularynotebook;
+package com.paktalin.vocabularynotebook.pojo;
 
 
 import com.google.firebase.firestore.DocumentReference;

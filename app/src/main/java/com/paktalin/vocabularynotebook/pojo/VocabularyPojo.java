@@ -1,4 +1,4 @@
-package com.paktalin.vocabularynotebook;
+package com.paktalin.vocabularynotebook.pojo;
 
 public class VocabularyPojo {
 
