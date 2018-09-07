@@ -47,6 +47,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun retrieveVocabulary(task: DocumentSnapshot) {
+        //todo if only one vocabulary exists, open it
         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
         val firstVocab = vocabularies[0].id
         db.collection("vocabularies").document(firstVocab).get().addOnSuccessListener { task ->

@@ -17,6 +17,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.UserActivity" />
         <activity android:name=".activities.LogInActivity">
+        </activity>
+        <activity android:name=".activities.VocabularyActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
