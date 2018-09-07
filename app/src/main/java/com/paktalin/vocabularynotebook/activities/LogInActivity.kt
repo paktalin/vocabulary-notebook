@@ -63,16 +63,13 @@ class LogInActivity : AppCompatActivity() {
             //todo check if the password is good
             // todo verify email
             mAuth!!.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Log.d(TAG, "Successfully signed up a new user")
-                            UserManager.addNewUserToDb(mAuth!!.currentUser!!, this)
-                        }
-                        else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(this@LogInActivity, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
-                        }
+                    .addOnSuccessListener { _ ->
+                        Log.d(TAG, "Successfully signed up a new user")
+                        UserManager.addNewUserToDb(mAuth!!.currentUser!!, this)
+                    }
+                    .addOnFailureListener {
+                        Log.d(TAG, "createUserWithEmail:failure", it.fillInStackTrace())
+                        Toast.makeText(this@LogInActivity, it.message, Toast.LENGTH_SHORT).show()
                     }
         }
     }

@@ -14,9 +14,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/map"
-            android:icon="@drawable/common_google_signin_btn_icon_light"
-            android:title="Vocabulary" />
+            android:id="@+id/logOut"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="Log out" />
     </group>
 
 </menu>
