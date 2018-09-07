@@ -78,8 +78,8 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun startUserActivity() {
-        Log.d(TAG, "Signed in successfully")
-        val userActivityIntent = Intent(this@LogInActivity, UserActivity::class.java)
+        Log.d(TAG, "Logged in successfully")
+        val userActivityIntent = Intent(this@LogInActivity, MainActivity::class.java)
         startActivity(userActivityIntent)
     }
 

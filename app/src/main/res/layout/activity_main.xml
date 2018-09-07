@@ -8,10 +8,11 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/activity_vocabulary"
+    <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:name="com.paktalin.vocabularynotebook.activities.VocabularyFragment"
+        android:id="@+id/fragment_vocabulary" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"

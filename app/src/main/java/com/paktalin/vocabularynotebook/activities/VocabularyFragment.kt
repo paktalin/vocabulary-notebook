@@ -2,40 +2,31 @@ package com.paktalin.vocabularynotebook.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.util.Log
-
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_vocabulary.*
+import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
-class UserActivity : AppCompatActivity() {
+class VocabularyFragment : Fragment() {
 
     private lateinit var userDocument: DocumentReference
     private val db = FirebaseFirestore.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            menuItem.isChecked = true
-            drawerLayout!!.closeDrawers()
-            true
-        }
-
-        extractUserDocument()
-        printUserData()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_vocabulary, container, false)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        FirebaseAuth.getInstance().signOut()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        extractUserDocument()
+        printUserData()
     }
 
     private fun extractUserDocument() {
@@ -65,7 +56,12 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        FirebaseAuth.getInstance().signOut()
+    }
+
     companion object {
-        private val TAG = "VN/" + UserActivity::class.simpleName
+        private val TAG = "VN/" + VocabularyFragment::class.simpleName
     }
 }
