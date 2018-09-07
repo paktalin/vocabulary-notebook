@@ -4,13 +4,13 @@ package com.paktalin.vocabularynotebook;
 import com.google.firebase.firestore.DocumentReference;
 import java.util.List;
 
-public class User {
-    private final static String TAG = "VN/" + User.class.getSimpleName();
+public class UserPojo {
+    private final static String TAG = "VN/" + UserPojo.class.getSimpleName();
 
     private String email, name;
     private List<DocumentReference> vocabularies;
 
-    public User(String email) {
+    public UserPojo(String email) {
         this.email = email;
     }
 

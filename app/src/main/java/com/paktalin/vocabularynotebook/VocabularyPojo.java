@@ -1,10 +1,10 @@
 package com.paktalin.vocabularynotebook;
 
-public class Vocabulary {
+public class VocabularyPojo {
 
     String title;
 
-    public Vocabulary() {
+    public VocabularyPojo() {
         title = "First vocabulary";
     }
 

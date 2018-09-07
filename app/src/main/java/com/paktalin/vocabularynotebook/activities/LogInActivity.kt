@@ -7,16 +7,11 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import com.google.android.gms.signin.SignIn
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_log_in.*
-import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.User
-import com.paktalin.vocabularynotebook.Vocabulary
-import java.util.*
+import com.paktalin.vocabularynotebook.UserManager
 
 class LogInActivity : AppCompatActivity() {
 
@@ -27,18 +22,20 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         mAuth = FirebaseAuth.getInstance()
-        btnLogIn!!.setOnClickListener({ signIn() })
+        btnLogIn!!.setOnClickListener({ logIn() })
         btnSignUp!!.setOnClickListener({ signUp() })
         btnRandomUser!!.setOnClickListener({ createRandomUser() })
     }
 
     override fun onStart() {
         super.onStart()
-        val currentUser = mAuth!!.currentUser
-        if (currentUser != null) startUserActivity()
+        if (mAuth!!.currentUser != null) {
+            Log.d(TAG, "there is a logged in user")
+            startUserActivity()
+        }
     }
 
-    private fun signIn() {
+    private fun logIn() {
         val email = etEmail!!.text.toString()
         val password = etPassword!!.text.toString()
 
@@ -69,8 +66,7 @@ class LogInActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             Log.d(TAG, "Successfully signed up a new user")
-                            addNewUserToDb(mAuth!!.currentUser!!)
-                            startUserActivity()
+                            UserManager.addNewUserToDb(mAuth!!.currentUser!!, this)
                         }
                         else {
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -81,7 +77,7 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-    private fun startUserActivity() {
+    fun startUserActivity() {
         Log.d(TAG, "Signed in successfully")
         val userActivityIntent = Intent(this@LogInActivity, UserActivity::class.java)
         startActivity(userActivityIntent)
@@ -95,25 +91,6 @@ class LogInActivity : AppCompatActivity() {
         return true
     }
 
-    private fun addNewUserToDb(newUser: FirebaseUser) {
-        //todo add condition to writing to the db in Firebase Console (request.auth.uid)
-        //todo delete account if couldn't add user to the db
-        val db = FirebaseFirestore.getInstance()
-        val user = User(newUser.email)
-
-        db.collection("vocabularies").add(Vocabulary())
-                .addOnSuccessListener { firstVocabularyRef ->
-                    Log.d(TAG, "Vocabulary successfully created: " + firstVocabularyRef.path)
-                    user.vocabularies = Collections.singletonList(firstVocabularyRef)
-
-                    db.collection("users").document(newUser.uid).set(user)
-                            .addOnCompleteListener({ task ->
-                                if (task.isSuccessful) Log.i(TAG, "Successfully added user to the collection")
-                                else Log.w(TAG, "addUser:failure", task.exception)
-                            })
-                }
-    }
-
     @SuppressLint("SetTextI18n")
     private fun createRandomUser() {
         etEmail.setText("random@gmail.com")
@@ -122,6 +99,6 @@ class LogInActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val TAG = "VN/" + SignIn::class.simpleName
+        private val TAG = "VN/" + LogInActivity::class.simpleName
     }
 }
