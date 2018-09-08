@@ -13,7 +13,8 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.VocabularyAdapter
-import com.paktalin.vocabularynotebook.pojo.WordItemPojo
+import com.paktalin.vocabularynotebook.WordItem
+import com.paktalin.vocabularynotebook.WordItem.WordItemPojo
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class VocabularyFragment : Fragment() {
@@ -27,6 +28,8 @@ class VocabularyFragment : Fragment() {
     private lateinit var userDocument: DocumentReference
     private val db = FirebaseFirestore.getInstance()
     private lateinit var vocabulary: DocumentReference
+
+    //todo move data process to onCreate method and update the views later
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
@@ -63,25 +66,30 @@ class VocabularyFragment : Fragment() {
         //todo if only one vocabulary exists, open it
         val mLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.setHasFixedSize(true)
 
-        vocabulary.collection(WORDS).get().addOnSuccessListener {
-            val wordItems: MutableList<WordItemPojo> = mutableListOf()
-
-            for (ref in it.documents) {
-                val word = ref.get("word").toString()
-                val translation = ref.get("translation").toString()
-                wordItems.add(WordItemPojo(word, translation))
-            }
-
-            val adapter = VocabularyAdapter(wordItems)
-            recyclerView.adapter = adapter
-        }
+        vocabulary.collection(WORDS).get()
+                .addOnSuccessListener { setVocabularyAdapter(it.documents) }
     }
 
     private fun addWord() {
         val addWordIntent = Intent(activity, AddWordActivity::class.java)
         addWordIntent.putExtra("vocabularyId", vocabulary.id)
         startActivity(addWordIntent)
+    }
+
+    private fun setVocabularyAdapter(documents: MutableList<DocumentSnapshot>) {
+        val wordItems: MutableList<WordItem> = mutableListOf()
+
+        for (ref in documents) {
+            val word = ref.get("word").toString()
+            val translation = ref.get("translation").toString()
+            val wordItemId = ref.id
+            wordItems.add(WordItem(word, translation, wordItemId))
+        }
+
+        val adapter = VocabularyAdapter(wordItems)
+        recyclerView.adapter = adapter
+
+        //todo setOnItemClickListener
     }
 }

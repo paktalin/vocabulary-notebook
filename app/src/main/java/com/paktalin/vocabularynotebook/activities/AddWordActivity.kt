@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.Utils
-import com.paktalin.vocabularynotebook.pojo.WordItemPojo
+import com.paktalin.vocabularynotebook.WordItem.WordItemPojo
 import kotlinx.android.synthetic.main.activity_add_word.*
 
 class AddWordActivity : AppCompatActivity() {

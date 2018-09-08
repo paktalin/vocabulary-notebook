@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.paktalin.vocabularynotebook.activities.VocabularyFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_small"
+        android:scaleType="centerCrop"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
