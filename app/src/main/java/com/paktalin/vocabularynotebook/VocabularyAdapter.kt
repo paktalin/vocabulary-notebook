@@ -2,20 +2,15 @@ package com.paktalin.vocabularynotebook
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.view.*
 import com.paktalin.vocabularynotebook.activities.WordItemInfoActivity
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -49,13 +44,6 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         return wordItems.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val etWord: EditText = itemView.findViewById(R.id.etWord)
-        val etTranslation: EditText = itemView.findViewById(R.id.etTranslation)
-        val btnPopupMenu: ImageButton = itemView.findViewById(R.id.btnContextMenu)
-        val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
-    }
-
     private fun openWordItemInfo(wordItem: WordItem) {
         val intentWordItemInfo = Intent(context, WordItemInfoActivity::class.java)
         intentWordItemInfo.putExtra("wordItem", wordItem)
@@ -85,16 +73,25 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         holder.btnPopupMenu.visibility = View.INVISIBLE
         Utils.setEmptyEditText(holder.etWord, "new word")
         Utils.setEmptyEditText(holder.etTranslation, "translation")
-        holder.etWord.setOnFocusChangeListener({ _, focus ->
-            if (focus) showCancelButton()
+
+        holder.etWord.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
+            override fun afterTextChanged(editable: Editable) {
+                if (!holder.etWord.text.isEmpty()) showCancelButton(holder) }
         })
-        holder.etTranslation.setOnFocusChangeListener({ _, focus ->
-            if (focus) showCancelButton()
+        holder.etTranslation.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
+            override fun afterTextChanged(editable: Editable) {
+                if (!holder.etTranslation.text.isEmpty()) showCancelButton(holder) }
         })
     }
 
-    private fun showCancelButton() {
+    private fun showCancelButton(holder: ViewHolder) {
         Log.d(TAG, "empty word is focused")
+        holder.btnPopupMenu.setImageResource(R.drawable.ic_cancel_icon)
+        holder.btnPopupMenu.visibility = View.VISIBLE
     }
 
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
