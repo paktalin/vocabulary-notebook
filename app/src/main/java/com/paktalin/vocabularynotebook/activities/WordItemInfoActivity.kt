@@ -1,8 +1,10 @@
 package com.paktalin.vocabularynotebook.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
+import android.view.MenuItem
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.WordItem
 import kotlinx.android.synthetic.main.activity_word_info.*
@@ -24,9 +26,27 @@ class WordItemInfoActivity: AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.item_delete -> {
+                wordItem.delete()
+                cancel()
+            }
+            R.id.item_edit -> {
+
+            }
+        }
+        return true
+    }
+
     private fun setData() {
         tvWord.text = wordItem.pojo!!.word
         tvTranslation.text = wordItem.pojo!!.translation
+    }
+
+    private fun cancel() {
+        val intentMainActivity = Intent(this, MainActivity::class.java)
+        startActivity(intentMainActivity)
     }
 
     companion object { private val TAG = "VN/" + WordItemInfoActivity::class.java.simpleName }
