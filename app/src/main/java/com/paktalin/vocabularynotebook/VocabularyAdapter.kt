@@ -22,7 +22,7 @@ class VocabularyAdapter(private val wordItems: List<WordItem>,
         val wordItem = wordItems[position]
         holder.tvWord.text = wordItem.pojo.word
         holder.tvTranslation.text = wordItem.pojo.translation
-        holder.tvWord.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
     }
 
     override fun getItemCount(): Int {
