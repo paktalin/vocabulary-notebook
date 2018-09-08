@@ -40,8 +40,8 @@ class WordItemInfoActivity: AppCompatActivity() {
     }
 
     private fun setData() {
-        tvWord.text = wordItem.pojo!!.word
-        tvTranslation.text = wordItem.pojo!!.translation
+        etWord.text = wordItem.pojo!!.word
+        etTranslation.text = wordItem.pojo!!.translation
     }
 
     private fun cancel() {

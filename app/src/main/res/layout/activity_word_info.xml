@@ -8,7 +8,7 @@
     <include layout="@layout/img_background"/>
 
     <TextView
-        android:id="@+id/tvWord"
+        android:id="@+id/etWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTranslation"
+        android:id="@+id/etTranslation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -27,6 +27,6 @@
         android:layout_marginTop="8dp"
         android:text="Translation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWord" />
+        app:layout_constraintTop_toBottomOf="@+id/etWord" />
 
 </android.support.constraint.ConstraintLayout>

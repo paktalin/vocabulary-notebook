@@ -2,17 +2,20 @@ package com.paktalin.vocabularynotebook
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
 import com.paktalin.vocabularynotebook.activities.WordItemInfoActivity
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
-                        private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -28,12 +31,18 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val wordItem = wordItems[position]
-        holder.tvWord.text = wordItem.pojo!!.word
-        holder.tvTranslation.text = wordItem.pojo!!.translation
-        holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
-        holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
-        //todo set click listener to menu
+        if (position == 0) showEmptyItem(holder)
+        else {
+            val wordItem = wordItems[position]
+            holder.etWord.setText(wordItem.pojo!!.word)
+            holder.etTranslation.setText(wordItem.pojo!!.translation)
+
+            holder.layout.setOnClickListener{ openWordItemInfo(wordItem) }
+            holder.etWord.setOnClickListener{ openWordItemInfo(wordItem) }
+            holder.etTranslation.setOnClickListener{ openWordItemInfo(wordItem) }
+            holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
+            //todo set click listener to menu
+        }
     }
 
     override fun getItemCount(): Int {
@@ -41,9 +50,10 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvWord: TextView = itemView.findViewById(R.id.tvWord)
-        val tvTranslation: TextView = itemView.findViewById(R.id.tvTranslation)
+        val etWord: EditText = itemView.findViewById(R.id.etWord)
+        val etTranslation: EditText = itemView.findViewById(R.id.etTranslation)
         val btnPopupMenu: ImageButton = itemView.findViewById(R.id.btnContextMenu)
+        val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
     }
 
     private fun openWordItemInfo(wordItem: WordItem) {
@@ -70,5 +80,24 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
         this.notifyItemRangeChanged(position, wordItems.size)
     }
 
+    private fun showEmptyItem(holder: ViewHolder) {
+        holder.btnPopupMenu.isClickable = false
+        holder.btnPopupMenu.visibility = View.INVISIBLE
+        Utils.setEmptyEditText(holder.etWord, "new word")
+        Utils.setEmptyEditText(holder.etTranslation, "translation")
+        holder.etWord.setOnFocusChangeListener({ _, focus ->
+            if (focus) showCancelButton()
+        })
+        holder.etTranslation.setOnFocusChangeListener({ _, focus ->
+            if (focus) showCancelButton()
+        })
+    }
+
+    private fun showCancelButton() {
+        Log.d(TAG, "empty word is focused")
+    }
+
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
+
+    init { wordItems.add(0, WordItem.createEmpty()) }
 }

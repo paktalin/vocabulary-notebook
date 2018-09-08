@@ -1,7 +1,9 @@
 package com.paktalin.vocabularynotebook
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
+import android.widget.EditText
 import android.widget.Toast
 
 class Utils {
@@ -12,6 +14,15 @@ class Utils {
                 return false
             }
             return true
+        }
+
+        fun setEmptyEditText(et:EditText, hint:String) {
+            et.isClickable = true
+            et.isFocusable = true
+            et.isFocusableInTouchMode = true
+            et.isCursorVisible = true
+            et.hint = hint
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) et.background = null
         }
     }
 }
