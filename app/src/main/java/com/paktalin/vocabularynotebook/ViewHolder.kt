@@ -5,34 +5,43 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val etWord: EditText = itemView.findViewById(R.id.etWord)
-    val etTranslation: EditText = itemView.findViewById(R.id.etTranslation)
+    val tvWord: TextView = itemView.findViewById(R.id.etWord)
+    val tvTranslation: TextView = itemView.findViewById(R.id.etTranslation)
     val btnPopupMenu: ImageButton = itemView.findViewById(R.id.btnContextMenu)
     val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
 
+    private var etWordEmpty = true
+    private var etTranslationEmpty = true
 
     fun showEmptyItem() {
-        btnPopupMenu.isClickable = false
-        btnPopupMenu.visibility = View.INVISIBLE
-        Utils.setEmptyEditText(etWord, "new word")
-        Utils.setEmptyEditText(etTranslation, "translation")
-
-        etWord.addTextChangedListener(object : TextWatcher {
+        tvWord.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
             override fun afterTextChanged(editable: Editable) {
-                if (!etWord.text.isEmpty()) showCancelButton() }
+                if (!tvWord.text.isEmpty()) {
+                    showCancelButton()
+                    etWordEmpty = false
+                } else etWordEmpty = true
+                if (!etWordEmpty && !etTranslationEmpty)
+                    showAddWordButton()
+            }
         })
-        this.etTranslation.addTextChangedListener(object : TextWatcher {
+        this.tvTranslation.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
             override fun afterTextChanged(editable: Editable) {
-                if (!etTranslation.text.isEmpty()) showCancelButton() }
+                if (!tvTranslation.text.isEmpty()) {
+                    showCancelButton()
+                    etTranslationEmpty = false
+                } else etTranslationEmpty = true
+                if (!etWordEmpty && !etTranslationEmpty)
+                    showAddWordButton()
+            }
         })
     }
 
@@ -41,6 +50,10 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         btnPopupMenu.setImageResource(R.drawable.ic_cancel_icon)
         btnPopupMenu.visibility = View.VISIBLE
         //todo add button click listener
+    }
+
+    private fun showAddWordButton() {
+        //todo show add word button
     }
 
     companion object { private val TAG = "VN/" + ViewHolder::class.java.simpleName }

@@ -15,14 +15,5 @@ class Utils {
             }
             return true
         }
-
-        fun setEmptyEditText(et:EditText, hint:String) {
-            et.isClickable = true
-            et.isFocusable = true
-            et.isFocusableInTouchMode = true
-            et.isCursorVisible = true
-            et.hint = hint
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) et.background = null
-        }
     }
 }

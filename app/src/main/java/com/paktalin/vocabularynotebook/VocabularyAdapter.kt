@@ -23,18 +23,15 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == 0) holder.showEmptyItem()
-        else {
-            val wordItem = wordItems[position]
-            holder.etWord.setText(wordItem.pojo!!.word)
-            holder.etTranslation.setText(wordItem.pojo!!.translation)
+        val wordItem = wordItems[position]
+        holder.tvWord.text = wordItem.pojo!!.word
+        holder.tvTranslation.text = wordItem.pojo!!.translation
 
-            holder.layout.setOnClickListener{ openWordItemInfo(wordItem) }
-            holder.etWord.setOnClickListener{ openWordItemInfo(wordItem) }
-            holder.etTranslation.setOnClickListener{ openWordItemInfo(wordItem) }
-            holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
-            //todo set click listener to menu
-        }
+        holder.layout.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.tvWord.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.tvTranslation.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
+        //todo set click listener to menu
     }
 
     override fun getItemCount(): Int {
@@ -52,8 +49,11 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
-            if (it.itemId == R.id.item_delete) { deleteWordItem(position) }
-            true }
+            if (it.itemId == R.id.item_delete) {
+                deleteWordItem(position)
+            }
+            true
+        }
         popup.show()
     }
 
@@ -65,7 +65,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         this.notifyItemRangeChanged(position, wordItems.size)
     }
 
-    companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
-
-    init { wordItems.add(0, WordItem.createEmpty()) }
+    companion object {
+        private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName
+    }
 }

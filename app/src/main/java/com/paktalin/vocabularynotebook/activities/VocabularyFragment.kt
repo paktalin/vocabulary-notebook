@@ -37,7 +37,6 @@ class VocabularyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setEmptyAdapter()
-        fabAddWord.setOnClickListener( { addWord() } )
         retrieveData()
     }
 

@@ -9,4 +9,6 @@
     <string name="tv_translation">Translation</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="hint_new_word">new word</string>
+    <string name="hint_translation">translation</string>
 </resources>
