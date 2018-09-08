@@ -38,6 +38,7 @@ class AddWordActivity : AppCompatActivity() {
                     .collection(WORDS).add(WordItemPojo(word, translation)).addOnSuccessListener {
                         Log.i(TAG, "Successfully added a new word $word")
                         clearFields()
+                        cancel()
                     }
                     .addOnFailureListener {
                         Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
