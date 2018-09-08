@@ -33,7 +33,7 @@ class WordItemInfoActivity: AppCompatActivity() {
                 cancel()
             }
             R.id.item_edit -> {
-
+                //todo edit item
             }
         }
         return true

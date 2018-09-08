@@ -5,4 +5,8 @@
     <string name="log_in_text">Log In</string>
     <string name="sign_up_text">Sign Up</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="tv_word">Word</string>
+    <string name="tv_translation">Translation</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>
