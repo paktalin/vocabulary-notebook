@@ -87,8 +87,7 @@ class VocabularyFragment : Fragment() {
         for (ref in documents) {
             val word = ref.get("word").toString()
             val translation = ref.get("translation").toString()
-            val wordItemId = ref.id
-            wordItems.add(WordItem(word, translation, wordItemId))
+            wordItems.add(WordItem(word, translation, ref.id, vocabulary.id))
         }
 
         val adapter = VocabularyAdapter(wordItems, activity!!)
