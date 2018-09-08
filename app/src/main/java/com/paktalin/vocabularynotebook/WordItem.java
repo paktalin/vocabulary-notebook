@@ -1,7 +1,9 @@
 package com.paktalin.vocabularynotebook;
 
-public class WordItem {
-    public static class WordItemPojo {
+import java.io.Serializable;
+
+public class WordItem implements Serializable {
+    public static class WordItemPojo implements Serializable{
 
         private String word, translation;
 
@@ -27,12 +29,12 @@ public class WordItem {
         }
     }
 
-    private String wordItemId;
+    private String id;
     private WordItemPojo pojo;
 
-    public WordItem(String word, String translation, String wordItemId) {
+    public WordItem(String word, String translation, String id) {
         this.pojo = new WordItemPojo(word, translation);
-        this.wordItemId = wordItemId;
+        this.id = id;
     }
 
     public WordItemPojo getPojo() {
@@ -41,5 +43,13 @@ public class WordItem {
 
     public void setPojo(WordItemPojo pojo) {
         this.pojo = pojo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

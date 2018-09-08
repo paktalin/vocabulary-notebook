@@ -14,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.WordItem
-import com.paktalin.vocabularynotebook.WordItem.WordItemPojo
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class VocabularyFragment : Fragment() {
@@ -37,6 +36,7 @@ class VocabularyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setEmptyAdapter()
         fabAddWord.setOnClickListener( { addWord() } )
         retrieveData()
     }
@@ -44,6 +44,13 @@ class VocabularyFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         FirebaseAuth.getInstance().signOut()
+    }
+
+    private fun setEmptyAdapter() {
+        val emptyList:MutableList<WordItem> = mutableListOf()
+        recyclerView.adapter = VocabularyAdapter(emptyList, activity!!)
+        val mLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = mLayoutManager
     }
 
     private fun retrieveData() {
@@ -64,9 +71,6 @@ class VocabularyFragment : Fragment() {
 
     private fun retrieveVocabularyData() {
         //todo if only one vocabulary exists, open it
-        val mLayoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = mLayoutManager
-
         vocabulary.collection(WORDS).get()
                 .addOnSuccessListener { setVocabularyAdapter(it.documents) }
     }
@@ -87,9 +91,7 @@ class VocabularyFragment : Fragment() {
             wordItems.add(WordItem(word, translation, wordItemId))
         }
 
-        val adapter = VocabularyAdapter(wordItems)
+        val adapter = VocabularyAdapter(wordItems, activity!!)
         recyclerView.adapter = adapter
-
-        //todo setOnItemClickListener
     }
 }
