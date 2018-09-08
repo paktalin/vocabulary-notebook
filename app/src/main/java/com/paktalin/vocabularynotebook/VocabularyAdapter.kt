@@ -4,9 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import com.paktalin.vocabularynotebook.activities.WordItemInfoActivity
 
@@ -26,7 +23,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == 0) showEmptyItem(holder)
+        if (position == 0) holder.showEmptyItem()
         else {
             val wordItem = wordItems[position]
             holder.etWord.setText(wordItem.pojo!!.word)
@@ -66,32 +63,6 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
         this.notifyItemRangeChanged(position, wordItems.size)
-    }
-
-    private fun showEmptyItem(holder: ViewHolder) {
-        holder.btnPopupMenu.isClickable = false
-        holder.btnPopupMenu.visibility = View.INVISIBLE
-        Utils.setEmptyEditText(holder.etWord, "new word")
-        Utils.setEmptyEditText(holder.etTranslation, "translation")
-
-        holder.etWord.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun afterTextChanged(editable: Editable) {
-                if (!holder.etWord.text.isEmpty()) showCancelButton(holder) }
-        })
-        holder.etTranslation.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun afterTextChanged(editable: Editable) {
-                if (!holder.etTranslation.text.isEmpty()) showCancelButton(holder) }
-        })
-    }
-
-    private fun showCancelButton(holder: ViewHolder) {
-        Log.d(TAG, "empty word is focused")
-        holder.btnPopupMenu.setImageResource(R.drawable.ic_cancel_icon)
-        holder.btnPopupMenu.visibility = View.VISIBLE
     }
 
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
