@@ -10,14 +10,14 @@
 
         <TextView
             android:id="@+id/tvWord"
-            android:layout_width="wrap_content"
+            android:layout_width="92dp"
             android:layout_height="wrap_content"
             android:text="word"
             android:textSize="22sp" />
 
         <TextView
             android:id="@+id/tvTranslation"
-            android:layout_width="wrap_content"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:text="translation"
             android:textSize="22sp" />
@@ -26,7 +26,8 @@
             android:id="@+id/btnContextMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_delete_icon" />
 
     </TableRow>
 </TableLayout>

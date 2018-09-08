@@ -32,8 +32,8 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
         holder.tvWord.text = wordItem.pojo!!.word
         holder.tvTranslation.text = wordItem.pojo!!.translation
         holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
-        holder.itemView.setOnLongClickListener { deleteWordItem(position);true }
-        holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu) }
+        holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
+        //todo set click listener to menu
     }
 
     override fun getItemCount(): Int {
@@ -52,10 +52,13 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
         context.startActivity(intentWordItemInfo)
     }
 
-    private fun showPopupMenu(v: View) {
+    private fun showPopupMenu(v: View, position: Int) {
         val popup = PopupMenu(context, v)
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.word_item_menu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            if (it.itemId == R.id.item_delete) { deleteWordItem(position) }
+            true }
         popup.show()
     }
 
