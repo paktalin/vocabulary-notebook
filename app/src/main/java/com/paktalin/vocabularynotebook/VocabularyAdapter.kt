@@ -27,8 +27,8 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wordItem = wordItems[position]
-        holder.tvWord.text = wordItem.pojo.word
-        holder.tvTranslation.text = wordItem.pojo.translation
+        holder.tvWord.text = wordItem.pojo!!.word
+        holder.tvTranslation.text = wordItem.pojo!!.translation
         holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
         holder.itemView.setOnLongClickListener { deleteWordItem(position);true }
     }

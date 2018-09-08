@@ -19,8 +19,8 @@ class WordItemInfoActivity: AppCompatActivity() {
     }
 
     private fun updateUi() {
-        tvWord.text = wordItem.pojo.word
-        tvTranslation.text = wordItem.pojo.translation
+        tvWord.text = wordItem.pojo!!.word
+        tvTranslation.text = wordItem.pojo!!.translation
     }
 
     companion object { private val TAG = "VN/" + WordItemInfoActivity::class.java.simpleName }
