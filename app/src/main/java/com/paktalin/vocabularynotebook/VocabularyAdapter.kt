@@ -5,9 +5,12 @@ import android.content.Intent
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.*
-import com.paktalin.vocabularynotebook.activities.WordItemInfoActivity
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.paktalin.vocabularynotebook.ui.WordItemInfoActivity
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<ViewHolder>() {
+class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -63,6 +66,13 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
         this.notifyItemRangeChanged(position, wordItems.size)
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvWord: TextView = itemView.findViewById(R.id.etWord)
+        val tvTranslation: TextView = itemView.findViewById(R.id.etTranslation)
+        val btnPopupMenu: ImageButton = itemView.findViewById(R.id.btnClear)
+        val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
     }
 
     companion object {

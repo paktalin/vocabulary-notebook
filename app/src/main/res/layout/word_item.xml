@@ -32,7 +32,7 @@
         android:inputType="text"/>
 
     <ImageButton
-        android:id="@+id/btnContextMenu"
+        android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

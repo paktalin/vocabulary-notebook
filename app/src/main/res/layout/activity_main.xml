@@ -16,7 +16,7 @@
 
         <fragment
             android:id="@+id/fragment_new_word"
-            android:name="com.paktalin.vocabularynotebook.NewWordFragment"
+            android:name="com.paktalin.vocabularynotebook.ui.NewWordFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -30,7 +30,7 @@
 
         <fragment
             android:id="@+id/fragment_vocabulary"
-            android:name="com.paktalin.vocabularynotebook.activities.VocabularyFragment"
+            android:name="com.paktalin.vocabularynotebook.ui.VocabularyFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

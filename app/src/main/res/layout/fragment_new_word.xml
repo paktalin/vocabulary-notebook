@@ -29,10 +29,11 @@
         tools:ignore="LabelFor" />
 
     <ImageButton
-        android:id="@+id/btnContextMenu"
+        android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:visibility="invisible"
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_cancel_icon"
         tools:ignore="ContentDescription" />
