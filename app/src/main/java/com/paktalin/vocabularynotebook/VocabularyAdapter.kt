@@ -29,10 +29,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         val wordItem = wordItems[position]
         holder.tvWord.text = wordItem.pojo!!.word
         holder.tvTranslation.text = wordItem.pojo!!.translation
-
-        holder.layout.setOnClickListener { openWordItemInfo(wordItem) }
-        holder.tvWord.setOnClickListener { openWordItemInfo(wordItem) }
-        holder.tvTranslation.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
         holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
         //todo set click listener to menu
     }
