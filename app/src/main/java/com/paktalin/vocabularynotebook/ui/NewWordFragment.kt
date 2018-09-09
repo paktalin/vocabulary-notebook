@@ -13,8 +13,11 @@ import kotlinx.android.synthetic.main.fragment_new_word.*
 
 class NewWordFragment : Fragment() {
 
-    private var etWordEmpty = true
-    private var etTranslationEmpty = true
+    private var wordEmpty: Boolean = true
+    set(value) { field = value; updateButtons() }
+
+    private var translationEmpty: Boolean = true
+    set(value) { field = value; updateButtons() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_new_word, container, false)
@@ -22,39 +25,53 @@ class NewWordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        etWord.addTextChangedListener(object : TextWatcher {
+        etWord.addTextChangedListener(textWatcher {
+            wordEmpty = etWord.text.isEmpty() })
+
+        etTranslation.addTextChangedListener(textWatcher {
+            translationEmpty = etTranslation.text.isEmpty() })
+
+        btnClear.setOnClickListener {
+            etWord.text.clear()
+            etTranslation.text.clear()
+        }
+    }
+
+    private fun textWatcher(setEmpty: () -> Unit): TextWatcher {
+        return object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun afterTextChanged(editable: Editable) {
-                if (!etWord.text.isEmpty()) {
-                    showCancelButton()
-                    etWordEmpty = false
-                } else etWordEmpty = true
-                if (!etWordEmpty && !etTranslationEmpty)
-                    showAddWordButton()
-            }
-        })
-        etTranslation.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) { }
-            override fun afterTextChanged(editable: Editable) {
-                if (!etTranslation.text.isEmpty()) {
-                    showCancelButton()
-                    etTranslationEmpty = false
-                } else etTranslationEmpty = true
-                if (!etWordEmpty && !etTranslationEmpty)
-                    showAddWordButton()
-            }
-        })
+            override fun afterTextChanged(editable: Editable) { setEmpty() }
+        }
+    }
+
+    private fun updateButtons() {
+        if (!wordEmpty || !translationEmpty)
+            showClearButton()
+        if (!wordEmpty && !translationEmpty)
+            showAddWordButton()
+        if (wordEmpty || translationEmpty)
+            hideAddWordButton()
+        if (wordEmpty && translationEmpty)
+            hideClearButton()
     }
 
     private fun showAddWordButton() {
+        Log.d(TAG, "showAddWordButton")
         //todo show add word button
     }
 
-    private fun showCancelButton() {
-        Log.d(TAG, "empty word is focused")
-        btnClear.setImageResource(R.drawable.ic_cancel_icon)
+    private fun hideAddWordButton() {
+        Log.d(TAG, "hideAddWordButton")
+    }
+
+    private fun hideClearButton() {
+        Log.d(TAG, "hideClearButton")
+        btnClear.visibility = View.GONE
+    }
+
+    private fun showClearButton() {
+        Log.d(TAG, "showClearButton")
         btnClear.visibility = View.VISIBLE
         //todo add button click listener
     }
