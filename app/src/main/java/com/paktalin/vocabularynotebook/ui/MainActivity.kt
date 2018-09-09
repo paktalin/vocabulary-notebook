@@ -11,6 +11,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
+import android.app.Activity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,6 +62,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideKeyboard() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+    }
+
+    fun hideKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     companion object {

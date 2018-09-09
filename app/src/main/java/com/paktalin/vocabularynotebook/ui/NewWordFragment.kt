@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,17 +63,18 @@ class NewWordFragment : Fragment() {
     }
 
     private fun showAddWordButton() {
-        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.VISIBLE }
+        activity!!.findViewById<FrameLayout>(R.id.btnAddWordLayout).visibility = View.VISIBLE }
 
     private fun hideAddWordButton() {
-        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.GONE }
+        activity!!.findViewById<FrameLayout>(R.id.btnAddWordLayout).visibility = View.GONE }
 
     private fun hideClearButton() { btnClear.visibility = View.GONE }
 
     private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
     private fun addWord() {
-        //todo get word data from edit texts and save it
+        (activity as MainActivity).hideKeyboard(activity as MainActivity)
+
         val word = etWord.text.toString()
         val translation = etTranslation.text.toString()
         val vocabularyId = (activity as MainActivity).vocabularyId
