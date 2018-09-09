@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
+import com.paktalin.vocabularynotebook.WordItem
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
 class NewWordFragment : Fragment() {
@@ -83,10 +85,23 @@ class NewWordFragment : Fragment() {
         //todo get word data from edit texts and save it
         val word = etWord.text.toString()
         val translation = etTranslation.text.toString()
+        val vocabularyId = (activity as MainActivity).vocabularyId
+        FirebaseFirestore.getInstance()
+                .collection("vocabularies").document(vocabularyId)
+                .collection("words").add(WordItem.WordItemPojo(word, translation))
+                .addOnSuccessListener {
+                    Log.i(TAG, "Successfully added a new word")
+                    clearFields()
+                    //todo update recycleView
+                            }
+                .addOnFailureListener {
+                    Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
+                    Toast.makeText(activity, "Couldn't add the word", Toast.LENGTH_SHORT).show()}
+    }
 
-        Log.d(TAG, "vocabularyId: ${(activity as MainActivity).vocabularyId})")
-
-        FirebaseFirestore.getInstance().collection("vocabularies").document()
+    private fun clearFields() {
+        etWord.text.clear()
+        etTranslation.text.clear()
     }
 
     companion object { private val TAG = "VN/" + NewWordFragment::class.java.simpleName }
