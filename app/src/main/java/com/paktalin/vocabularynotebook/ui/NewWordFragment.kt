@@ -105,10 +105,10 @@ class NewWordFragment : Fragment() {
         etTranslation.text.clear()
     }
 
-    private fun updateRecycleView(wordItem: WordItem) {
+    private fun updateRecycleView(newWordItem: WordItem) {
         (activity!!.supportFragmentManager
                 .findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment)
-                .addWordItem(wordItem)
+                .addWordItem(newWordItem)
     }
 
     companion object { private val TAG = "VN/" + NewWordFragment::class.java.simpleName }

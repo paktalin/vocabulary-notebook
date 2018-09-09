@@ -28,7 +28,5 @@ class WordItem(word: String, translation: String, var id: String, private val vo
                 .addOnFailureListener { e -> Log.w(TAG, "deleteWordWithId $id:failure", e.fillInStackTrace()) }
     }
 
-    companion object {
-        private val TAG = "VN/" + WordItem::class.java.simpleName
-    }
+    companion object { private val TAG = "VN/" + WordItem::class.java.simpleName }
 }
