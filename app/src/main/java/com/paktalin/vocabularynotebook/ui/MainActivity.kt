@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setUpNavigationView()
         extractVocabularyData()
-        startVocabularyFragment()
-        startNewWordFragment()
     }
 
     private fun logOut() {
@@ -53,16 +51,7 @@ class MainActivity : AppCompatActivity() {
             vocabularyId = vocabulary.id
             (supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment)
                     .retrieveWordsData(vocabularyId)
-
         }
-    }
-
-    private fun startVocabularyFragment() {
-
-    }
-
-    private fun startNewWordFragment() {
-
     }
 
     companion object {

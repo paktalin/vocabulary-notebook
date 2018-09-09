@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.paktalin.vocabularynotebook.ui.WordItemInfoActivity
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -68,6 +68,11 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         this.notifyItemRangeChanged(position, wordItems.size)
     }
 
+    fun addWordItem(newWordItem: WordItem) {
+        wordItems.add(0, newWordItem)
+        this.notifyItemInserted(0)
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvWord: TextView = itemView.findViewById(R.id.etWord)
         val tvTranslation: TextView = itemView.findViewById(R.id.etTranslation)
@@ -78,4 +83,5 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     companion object {
         private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName
     }
+
 }

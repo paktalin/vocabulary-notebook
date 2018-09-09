@@ -61,4 +61,8 @@ class VocabularyFragment : Fragment() {
         val adapter = VocabularyAdapter(wordItems, activity!!)
         recyclerView.adapter = adapter
     }
+
+    fun addWordItem(newWordItem: WordItem) {
+        (recyclerView.adapter as VocabularyAdapter).addWordItem(newWordItem)
+    }
 }

@@ -86,14 +86,15 @@ class NewWordFragment : Fragment() {
         val word = etWord.text.toString()
         val translation = etTranslation.text.toString()
         val vocabularyId = (activity as MainActivity).vocabularyId
+        val newWordItemPojo = WordItem.WordItemPojo(word, translation)
         FirebaseFirestore.getInstance()
                 .collection("vocabularies").document(vocabularyId)
-                .collection("words").add(WordItem.WordItemPojo(word, translation))
+                .collection("words").add(newWordItemPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully added a new word")
                     clearFields()
-                    //todo update recycleView
-                            }
+                    val wordItem = WordItem(newWordItemPojo, it.id, vocabularyId)
+                    updateRecycleView(wordItem) }
                 .addOnFailureListener {
                     Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
                     Toast.makeText(activity, "Couldn't add the word", Toast.LENGTH_SHORT).show()}
@@ -102,6 +103,12 @@ class NewWordFragment : Fragment() {
     private fun clearFields() {
         etWord.text.clear()
         etTranslation.text.clear()
+    }
+
+    private fun updateRecycleView(wordItem: WordItem) {
+        (activity!!.supportFragmentManager
+                .findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment)
+                .addWordItem(wordItem)
     }
 
     companion object { private val TAG = "VN/" + NewWordFragment::class.java.simpleName }
