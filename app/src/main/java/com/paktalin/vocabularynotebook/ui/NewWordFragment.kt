@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
@@ -80,6 +81,12 @@ class NewWordFragment : Fragment() {
 
     private fun addWord() {
         //todo get word data from edit texts and save it
+        val word = etWord.text.toString()
+        val translation = etTranslation.text.toString()
+
+        Log.d(TAG, "vocabularyId: ${(activity as MainActivity).vocabularyId})")
+
+        FirebaseFirestore.getInstance().collection("vocabularies").document()
     }
 
     companion object { private val TAG = "VN/" + NewWordFragment::class.java.simpleName }
