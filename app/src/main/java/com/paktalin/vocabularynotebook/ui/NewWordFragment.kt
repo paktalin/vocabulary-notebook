@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
@@ -35,6 +36,7 @@ class NewWordFragment : Fragment() {
             etWord.text.clear()
             etTranslation.text.clear()
         }
+        activity!!.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener { addWord() }
     }
 
     private fun textWatcher(setEmpty: () -> Unit): TextWatcher {
@@ -58,11 +60,12 @@ class NewWordFragment : Fragment() {
 
     private fun showAddWordButton() {
         Log.d(TAG, "showAddWordButton")
-        //todo show add word button
+        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.VISIBLE
     }
 
     private fun hideAddWordButton() {
         Log.d(TAG, "hideAddWordButton")
+        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.GONE
     }
 
     private fun hideClearButton() {
@@ -73,7 +76,10 @@ class NewWordFragment : Fragment() {
     private fun showClearButton() {
         Log.d(TAG, "showClearButton")
         btnClear.visibility = View.VISIBLE
-        //todo add button click listener
+    }
+
+    private fun addWord() {
+        //todo get word data from edit texts and save it
     }
 
     companion object { private val TAG = "VN/" + NewWordFragment::class.java.simpleName }
