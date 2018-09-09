@@ -62,24 +62,14 @@ class NewWordFragment : Fragment() {
     }
 
     private fun showAddWordButton() {
-        Log.d(TAG, "showAddWordButton")
-        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.VISIBLE
-    }
+        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.VISIBLE }
 
     private fun hideAddWordButton() {
-        Log.d(TAG, "hideAddWordButton")
-        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.GONE
-    }
+        activity!!.findViewById<ImageButton>(R.id.btnAddWord).visibility = View.GONE }
 
-    private fun hideClearButton() {
-        Log.d(TAG, "hideClearButton")
-        btnClear.visibility = View.GONE
-    }
+    private fun hideClearButton() { btnClear.visibility = View.GONE }
 
-    private fun showClearButton() {
-        Log.d(TAG, "showClearButton")
-        btnClear.visibility = View.VISIBLE
-    }
+    private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
     private fun addWord() {
         //todo get word data from edit texts and save it

@@ -77,8 +77,5 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
     }
 
-    companion object {
-        private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName
-    }
-
+    companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
 }

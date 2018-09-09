@@ -28,10 +28,7 @@ class LogInActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (mAuth!!.currentUser != null) {
-            Log.d(TAG, "there is a logged in user")
-            startUserActivity()
-        }
+        if (mAuth!!.currentUser != null) { startUserActivity() }
     }
 
     private fun logIn() {

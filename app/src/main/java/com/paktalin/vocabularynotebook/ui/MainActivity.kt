@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
+import android.view.WindowManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        hideKeyboard()
         setUpNavigationView()
         extractVocabularyData()
     }
@@ -52,6 +54,10 @@ class MainActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment)
                     .retrieveWordsData(vocabularyId)
         }
+    }
+
+    private fun hideKeyboard() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
     companion object {
