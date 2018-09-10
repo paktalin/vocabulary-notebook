@@ -15,7 +15,6 @@ import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
-
 class MainActivity : AppCompatActivity() {
 
     lateinit var vocabularyId: String
@@ -73,7 +72,5 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    companion object {
-        private val TAG = "VN/" + MainActivity::class.simpleName
-    }
+    companion object { private val TAG = "VN/" + MainActivity::class.simpleName }
 }

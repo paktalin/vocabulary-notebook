@@ -34,9 +34,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         //todo set click listener to menu
     }
 
-    override fun getItemCount(): Int {
-        return wordItems.size
-    }
+    override fun getItemCount(): Int { return wordItems.size }
 
     private fun openWordItemInfo(wordItem: WordItem) {
         val intentWordItemInfo = Intent(context, WordItemInfoActivity::class.java)

@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.VocabularyAdapter
-import com.paktalin.vocabularynotebook.WordItem
+import com.paktalin.vocabularynotebook.*
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class VocabularyFragment : Fragment() {
