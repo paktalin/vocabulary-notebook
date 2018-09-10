@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun extractVocabularyData() {
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userId = FirebaseAuth.getInstance()!!.currentUser!!.uid
         val db = ConfiguredFirestore.instance
 
         val userDocument = db.collection("users").document(userId)
