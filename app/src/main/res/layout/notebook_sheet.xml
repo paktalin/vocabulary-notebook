@@ -1,57 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/img_background" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginLeft="56dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:scrollbars="vertical">
 
-        <fragment
-            android:id="@+id/fragment_new_word"
-            android:name="com.paktalin.vocabularynotebook.ui.NewWordFragment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <fragment
-            android:id="@+id/fragment_vocabulary"
-            android:name="com.paktalin.vocabularynotebook.ui.VocabularyFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <fragment
+                android:id="@+id/fragment_new_word"
+                android:name="com.paktalin.vocabularynotebook.ui.NewWordFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <fragment
+                android:id="@+id/fragment_vocabulary"
+                android:name="com.paktalin.vocabularynotebook.ui.VocabularyFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/btnAddWordLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/colorPrimary"
-        android:visibility="invisible">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton
             android:id="@+id/btnAddWord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
-            android:layout_gravity="end"
             app:srcCompat="@drawable/ic_done_icon" />
 
     </FrameLayout>

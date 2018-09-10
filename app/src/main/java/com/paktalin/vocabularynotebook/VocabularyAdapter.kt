@@ -30,7 +30,6 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         holder.tvWord.text = wordItem.pojo!!.word
         holder.tvTranslation.text = wordItem.pojo!!.translation
         holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
-        holder.btnPopupMenu.setOnClickListener { showPopupMenu(holder.btnPopupMenu, position) }
         //todo set click listener to menu
     }
 
@@ -71,7 +70,6 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvWord: TextView = itemView.findViewById(R.id.etWord)
         val tvTranslation: TextView = itemView.findViewById(R.id.etTranslation)
-        val btnPopupMenu: ImageButton = itemView.findViewById(R.id.btnClear)
         val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
     }
 

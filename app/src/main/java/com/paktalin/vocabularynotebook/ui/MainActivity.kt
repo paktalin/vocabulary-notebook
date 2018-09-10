@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity() {
         val db = ConfiguredFirestore.instance
 
         val userDocument = db.collection("users").document(userId)
-
-        userDocument.get().addOnSuccessListener { task ->
+        progress.visibility = View.VISIBLE
+        userDocument.get()
+                .addOnSuccessListener { task ->
+                    progress.visibility = View.GONE
             val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
             //todo represent specific vocabulary instead of the first one
             val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)

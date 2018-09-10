@@ -7,13 +7,18 @@
     android:id="@+id/tableLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/one_item2"
+    android:paddingRight="32dp"
+    android:paddingLeft="56dp"
+    android:paddingEnd="32dp"
+    android:paddingStart="56dp">
 
     <TextView
         android:id="@+id/etWord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:textSize="22sp"
         app:fontFamily="@font/fonts"
         tools:ignore="LabelFor" />
@@ -22,18 +27,9 @@
         android:id="@+id/etTranslation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:textSize="22sp"
         app:fontFamily="@font/fonts"
         tools:ignore="LabelFor" />
-
-    <ImageButton
-        android:id="@+id/btnClear"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@android:color/transparent"
-        app:srcCompat="@drawable/ic_delete_icon"
-        tools:ignore="ContentDescription" />
 
 </LinearLayout>

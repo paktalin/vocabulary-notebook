@@ -7,9 +7,12 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
-    <include layout="@layout/img_background" />
-
     <include layout="@layout/notebook_sheet" />
+
+    <include
+        android:id="@+id/progress"
+        layout="@layout/progress"
+        android:visibility="gone" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"

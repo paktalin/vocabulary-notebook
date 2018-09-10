@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.LogInActivity">
 
+    <include
+        android:id="@+id/progress"
+        layout="@layout/progress"
+        android:visibility="gone"/>
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="wrap_content"

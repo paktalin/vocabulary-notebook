@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
@@ -36,17 +37,17 @@ class LogInActivity : AppCompatActivity() {
         val password = etPassword!!.text.toString()
 
         if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
+            progress.visibility = View.VISIBLE
             mAuth!!.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d(TAG, "Successfully signed in")
-                            startUserActivity()
-                        }
-                        else {
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(this@LogInActivity, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
-                        }
+                    .addOnCompleteListener { progress.visibility = View.GONE }
+                    .addOnSuccessListener {
+                        Log.d(TAG, "Successfully signed in")
+                        startUserActivity()
+                    }
+                    .addOnFailureListener {
+                        Log.w(TAG, "signInWithEmail:failure", it)
+                        Toast.makeText(this@LogInActivity, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
                     }
         }
     }
@@ -83,7 +84,5 @@ class LogInActivity : AppCompatActivity() {
         signUp()
     }
 
-    companion object {
-        private val TAG = "VN/" + LogInActivity::class.simpleName
-    }
+    companion object { private val TAG = "VN/" + LogInActivity::class.simpleName }
 }

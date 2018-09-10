@@ -68,7 +68,7 @@ class NewWordFragment : Fragment() {
     private fun hideAddWordButton() {
         activity!!.findViewById<FrameLayout>(R.id.btnAddWordLayout).visibility = View.GONE }
 
-    private fun hideClearButton() { btnClear.visibility = View.GONE }
+    private fun hideClearButton() { btnClear.visibility = View.INVISIBLE }
 
     private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
