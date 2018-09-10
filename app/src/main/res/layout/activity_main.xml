@@ -9,60 +9,7 @@
 
     <include layout="@layout/img_background" />
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <fragment
-            android:id="@+id/fragment_new_word"
-            android:name="com.paktalin.vocabularynotebook.ui.NewWordFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <fragment
-            android:id="@+id/fragment_vocabulary"
-            android:name="com.paktalin.vocabularynotebook.ui.VocabularyFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_new_word" />
-
-        <FrameLayout
-            android:id="@+id/btnAddWordLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/colorPrimary"
-            android:visibility="invisible">
-
-            <ImageButton
-                android:id="@+id/btnAddWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@android:color/transparent"
-                android:layout_gravity="end"
-                app:srcCompat="@drawable/ic_done_icon" />
-
-        </FrameLayout>
-
-    </android.support.constraint.ConstraintLayout>
+    <include layout="@layout/notebook_sheet" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
