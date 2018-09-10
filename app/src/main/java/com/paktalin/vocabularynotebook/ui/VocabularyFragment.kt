@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.*
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
@@ -19,7 +18,7 @@ class VocabularyFragment : Fragment() {
         private const val WORDS = "words"
     }
 
-    private val db = FirebaseFirestore.getInstance()
+    private val db = ConfiguredFirestore.instance
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)

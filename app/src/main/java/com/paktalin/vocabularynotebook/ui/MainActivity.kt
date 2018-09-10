@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
 
 import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,6 +13,7 @@ import android.view.WindowManager
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.paktalin.vocabularynotebook.ConfiguredFirestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun extractVocabularyData() {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        val db = FirebaseFirestore.getInstance()
+        val db = ConfiguredFirestore.instance
 
         val userDocument = db.collection("users").document(userId)
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
-import com.google.firebase.firestore.FirebaseFirestore
+import com.paktalin.vocabularynotebook.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.WordItem
 import kotlinx.android.synthetic.main.fragment_new_word.*
@@ -79,7 +79,7 @@ class NewWordFragment : Fragment() {
         val translation = etTranslation.text.toString()
         val vocabularyId = (activity as MainActivity).vocabularyId
         val newWordItemPojo = WordItem.WordItemPojo(word, translation)
-        FirebaseFirestore.getInstance()
+        ConfiguredFirestore.instance
                 .collection("vocabularies").document(vocabularyId)
                 .collection("words").add(newWordItemPojo)
                 .addOnSuccessListener {

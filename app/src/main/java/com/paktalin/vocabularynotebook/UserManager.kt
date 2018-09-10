@@ -2,7 +2,6 @@ package com.paktalin.vocabularynotebook
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
 import com.paktalin.vocabularynotebook.ui.LogInActivity
 import com.paktalin.vocabularynotebook.pojo.UserPojo
 import com.paktalin.vocabularynotebook.pojo.VocabularyPojo
@@ -20,7 +19,7 @@ class UserManager {
 
         fun addNewUserToDb(newUser: FirebaseUser, logInActivity: LogInActivity) {
             //todo add condition to writing to the db in Firebase Console (request.auth.uid)
-            val db = FirebaseFirestore.getInstance()
+            val db = ConfiguredFirestore.instance
             val user = UserPojo(newUser.email)
 
             db.collection("vocabularies").add(VocabularyPojo())
