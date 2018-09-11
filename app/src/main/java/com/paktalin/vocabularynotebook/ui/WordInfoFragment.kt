@@ -2,7 +2,6 @@ package com.paktalin.vocabularynotebook.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +21,22 @@ class WordInfoFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setData()
+        btnClose.setOnClickListener { closeFragment() }
+        btnDelete.setOnClickListener { deleteItem() }
     }
 
     private fun setData() {
         etWord.text = wordItem.pojo!!.word
         etTranslation.text = wordItem.pojo!!.translation
+    }
+
+    private fun closeFragment() {
+        activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
+    }
+
+    private fun deleteItem() {
+        (activity as MainActivity).deleteWordItem(wordItem)
+        closeFragment()
     }
 
 }

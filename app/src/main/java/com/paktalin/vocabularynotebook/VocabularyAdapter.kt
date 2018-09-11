@@ -44,22 +44,10 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         (activity as MainActivity).supportFragmentManager.beginTransaction().add(R.id.content, wordInfoFragment).commit()
     }
 
-    private fun showPopupMenu(v: View, position: Int) {
-        val popup = PopupMenu(activity, v)
-        val inflater = popup.menuInflater
-        inflater.inflate(R.menu.word_item_menu, popup.menu)
-        popup.setOnMenuItemClickListener {
-            if (it.itemId == R.id.item_delete) {
-                deleteWordItem(position)
-            }
-            true
-        }
-        popup.show()
-    }
-
-    private fun deleteWordItem(position: Int) {
-        wordItems[position].delete()
-        wordItems.removeAt(position)
+    fun deleteWordItem(wordItem: WordItem) {
+        wordItem.delete()
+        val position = wordItems.indexOf(wordItem)
+        wordItems.remove(wordItem)
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
         this.notifyItemRangeChanged(position, wordItems.size)

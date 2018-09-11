@@ -13,17 +13,20 @@ import android.view.WindowManager
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.paktalin.vocabularynotebook.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var vocabularyId: String
+    lateinit var vocabularyFragment: VocabularyFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         hideKeyboard()
         setUpNavigationView()
+        vocabularyFragment = supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment
         extractVocabularyData()
     }
 
@@ -56,8 +59,7 @@ class MainActivity : AppCompatActivity() {
             //todo represent specific vocabulary instead of the first one
             val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
             vocabularyId = vocabulary.id
-            (supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment)
-                    .retrieveWordsData(vocabularyId)
+            vocabularyFragment.retrieveWordsData(vocabularyId)
         }
     }
 
@@ -72,6 +74,10 @@ class MainActivity : AppCompatActivity() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun deleteWordItem(wordItem: WordItem) {
+        vocabularyFragment.deleteWordItem(wordItem)
     }
 
     companion object { private val TAG = "VN/" + MainActivity::class.simpleName }
