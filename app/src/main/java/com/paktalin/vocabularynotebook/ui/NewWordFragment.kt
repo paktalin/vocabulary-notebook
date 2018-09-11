@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.WordItem
+import kotlinx.android.synthetic.main.editable_word_item.*
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
 class NewWordFragment : Fragment() {
@@ -30,15 +31,15 @@ class NewWordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        etWord.addTextChangedListener(textWatcher {
-            wordEmpty = etWord.text.isEmpty() })
+        word.addTextChangedListener(textWatcher {
+            wordEmpty = word.text.isEmpty() })
 
-        etTranslation.addTextChangedListener(textWatcher {
-            translationEmpty = etTranslation.text.isEmpty() })
+        translation.addTextChangedListener(textWatcher {
+            translationEmpty = translation.text.isEmpty() })
 
         btnClear.setOnClickListener {
-            etWord.text.clear()
-            etTranslation.text.clear()
+            word.text.clear()
+            translation.text.clear()
         }
         activity!!.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener { addWord() }
     }
@@ -73,10 +74,10 @@ class NewWordFragment : Fragment() {
     private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
     private fun addWord() {
-        (activity as MainActivity).hideKeyboard(activity as MainActivity)
+        (activity as MainActivity).hideKeyboardNotFromActivity(activity as MainActivity)
 
-        val word = etWord.text.toString()
-        val translation = etTranslation.text.toString()
+        val word = word.text.toString()
+        val translation = translation.text.toString()
         val vocabularyId = (activity as MainActivity).vocabularyId
         val newWordItemPojo = WordItem.WordItemPojo(word, translation)
         ConfiguredFirestore.instance
@@ -93,8 +94,8 @@ class NewWordFragment : Fragment() {
     }
 
     private fun clearFields() {
-        etWord.text.clear()
-        etTranslation.text.clear()
+        word.text.clear()
+        translation.text.clear()
     }
 
     private fun updateRecycleView(newWordItem: WordItem) {

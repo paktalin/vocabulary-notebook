@@ -60,10 +60,6 @@ class VocabularyFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    fun deleteWordItem(wordItem: WordItem) {
-        (recyclerView.adapter as VocabularyAdapter).deleteWordItem(wordItem)
-    }
-
     fun addWordItem(newWordItem: WordItem) {
         (recyclerView.adapter as VocabularyAdapter).addWordItem(newWordItem)
     }

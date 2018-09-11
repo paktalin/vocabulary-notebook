@@ -1,15 +1,17 @@
 package com.paktalin.vocabularynotebook
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
-import com.paktalin.vocabularynotebook.ui.WordInfoFragment
+
 
 class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
@@ -30,24 +32,27 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         val wordItem = wordItems[position]
         holder.tvWord.text = wordItem.pojo!!.word
         holder.tvTranslation.text = wordItem.pojo!!.translation
-        holder.itemView.setOnClickListener { openWordItemInfo(wordItem) }
+        holder.itemView.setOnClickListener { showPopupMenu(holder.itemView, position) }
         //todo set click listener to menu
     }
 
     override fun getItemCount(): Int { return wordItems.size }
 
-    private fun openWordItemInfo(wordItem: WordItem) {
-        val wordInfoFragment = WordInfoFragment()
-        val arguments = Bundle()
-        arguments.putSerializable("wordItem", wordItem)
-        wordInfoFragment.arguments = arguments
-        (activity as MainActivity).supportFragmentManager.beginTransaction().add(R.id.content, wordInfoFragment).commit()
+    private fun showPopupMenu(v: View, position: Int) {
+        val popup = PopupMenu(activity, v)
+        val inflater = popup.menuInflater
+        inflater.inflate(R.menu.word_item_menu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            if (it.itemId == R.id.option_delete) { deleteWordItem(position) }
+            if (it.itemId == R.id.option_edit) { editWordItem(v, wordItems[position]) }
+            true
+        }
+        popup.show()
     }
 
-    fun deleteWordItem(wordItem: WordItem) {
-        wordItem.delete()
-        val position = wordItems.indexOf(wordItem)
-        wordItems.remove(wordItem)
+    private fun deleteWordItem(position: Int) {
+        wordItems[position].delete()
+        wordItems.removeAt(position)
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
         this.notifyItemRangeChanged(position, wordItems.size)
@@ -58,10 +63,29 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         this.notifyItemInserted(0)
     }
 
+    @SuppressLint("ResourceType")
+    private fun editWordItem(container:View, wordItem: WordItem) {
+        //hide textViews
+        container.findViewById<TextView>(R.id.word).visibility = View.GONE
+        container.findViewById<TextView>(R.id.translation).visibility = View.GONE
+
+        //set container id
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            container.id = View.generateViewId()
+        } else container.id = 18071999
+
+        // start fragment
+        val wordInfoFragment = EditWordFragment()
+        val arguments = Bundle()
+        arguments.putSerializable("wordItem", wordItem)
+        wordInfoFragment.arguments = arguments
+        (activity as MainActivity).supportFragmentManager.beginTransaction().add(container.id, wordInfoFragment).commit()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvWord: TextView = itemView.findViewById(R.id.etWord)
-        val tvTranslation: TextView = itemView.findViewById(R.id.etTranslation)
-        val layout: LinearLayout = itemView.findViewById(R.id.tableLayout)
+        val tvWord: TextView = itemView.findViewById(R.id.word)
+        val tvTranslation: TextView = itemView.findViewById(R.id.translation)
+        val layout: LinearLayout = itemView.findViewById(R.id.layout)
     }
 
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }

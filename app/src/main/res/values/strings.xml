@@ -11,4 +11,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="hint_new_word">new word</string>
     <string name="hint_translation">translation</string>
+    <string name="menu_option_delete">Delete</string>
+    <string name="menu_option_edit">Edit</string>
 </resources>

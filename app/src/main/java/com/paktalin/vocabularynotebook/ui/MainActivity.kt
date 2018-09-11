@@ -19,7 +19,7 @@ import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 class MainActivity : AppCompatActivity() {
 
     lateinit var vocabularyId: String
-    lateinit var vocabularyFragment: VocabularyFragment
+    private lateinit var vocabularyFragment: VocabularyFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +55,13 @@ class MainActivity : AppCompatActivity() {
         userDocument.get()
                 .addOnSuccessListener { task ->
                     progress.visibility = View.GONE
-            val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
-            //todo represent specific vocabulary instead of the first one
-            val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
-            vocabularyId = vocabulary.id
-            vocabularyFragment.retrieveWordsData(vocabularyId)
+                    if (task.get("vocabularies") != null) {
+                        val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
+                        //todo represent specific vocabulary instead of the first one
+                        val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
+                        vocabularyId = vocabulary.id
+                        vocabularyFragment.retrieveWordsData(vocabularyId)
+                    }
         }
     }
 
@@ -67,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
     }
 
-    fun hideKeyboard(activity: Activity) {
+    fun hideKeyboardNotFromActivity(activity: Activity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         var view = activity.currentFocus
         if (view == null) {
@@ -76,8 +78,9 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun deleteWordItem(wordItem: WordItem) {
-        vocabularyFragment.deleteWordItem(wordItem)
+    override fun onPause() {
+        super.onPause()
+        hideKeyboard()
     }
 
     companion object { private val TAG = "VN/" + MainActivity::class.simpleName }
