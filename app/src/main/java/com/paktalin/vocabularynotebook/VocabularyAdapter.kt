@@ -12,7 +12,6 @@ import android.widget.TextView
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 
-
 class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
@@ -65,10 +64,6 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
 
     @SuppressLint("ResourceType")
     private fun editWordItem(container:View, wordItem: WordItem) {
-        //hide textViews
-        container.findViewById<TextView>(R.id.word).visibility = View.GONE
-        container.findViewById<TextView>(R.id.translation).visibility = View.GONE
-
         //set container id
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             container.id = View.generateViewId()
