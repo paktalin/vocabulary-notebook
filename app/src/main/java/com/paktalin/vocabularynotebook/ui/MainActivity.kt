@@ -13,7 +13,7 @@ import android.view.WindowManager
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.paktalin.vocabularynotebook.app_setup.ConfiguredFirestore
+import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 
 class MainActivity : AppCompatActivity() {
 
