@@ -53,8 +53,8 @@ class EditWordFragment : WordFragment() {
 
     override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
         ConfiguredFirestore.instance
-                .collection(VOCABULARIES).document(vocabularyId)
-                .collection(WORDS).document(wordItem.id).set(wordPojo)
+                .collection(vocabularies).document(vocabularyId)
+                .collection(words).document(wordItem.id).set(wordPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully updated the word")
                     hideSubmitButton()
@@ -71,5 +71,4 @@ class EditWordFragment : WordFragment() {
     }
 
     companion object { private val TAG = "VN/" + EditWordFragment::class.java.simpleName }
-
 }

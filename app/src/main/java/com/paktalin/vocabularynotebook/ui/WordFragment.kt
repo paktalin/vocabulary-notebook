@@ -12,8 +12,8 @@ import com.paktalin.vocabularynotebook.WordItem
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
 abstract class WordFragment : Fragment() {
-    protected val VOCABULARIES = "vocabularies"
-    protected val WORDS = "words"
+    protected val vocabularies = "vocabularies"
+    protected val words = "words"
 
     private var wordEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
