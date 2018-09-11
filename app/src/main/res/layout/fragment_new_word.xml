@@ -41,7 +41,8 @@
             android:hint="@string/hint_new_word"
             android:inputType="text"
             android:textSize="22sp"
-            app:fontFamily="@font/fonts"
+            app:fontFamily="@font/neucha"
+            android:textColor="#000F55"
             tools:ignore="LabelFor" />
 
         <EditText
@@ -53,7 +54,8 @@
             android:hint="@string/hint_translation"
             android:inputType="text"
             android:textSize="22sp"
-            app:fontFamily="@font/fonts"
+            app:fontFamily="@font/neucha"
+            android:textColor="#000F55"
             tools:ignore="LabelFor" />
     </LinearLayout>
 
