@@ -1,4 +1,4 @@
-package com.paktalin.vocabularynotebook;
+package com.paktalin.vocabularynotebook.app_setup;
 
 import android.app.Application;
 

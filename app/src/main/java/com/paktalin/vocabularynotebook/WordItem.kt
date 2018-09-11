@@ -1,6 +1,7 @@
 package com.paktalin.vocabularynotebook
 
 import android.util.Log
+import com.paktalin.vocabularynotebook.app_setup.ConfiguredFirestore
 
 import java.io.Serializable
 

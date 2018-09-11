@@ -1,19 +1,17 @@
 package com.paktalin.vocabularynotebook
 
 import android.app.Activity
-import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import com.paktalin.vocabularynotebook.ui.WordInfoFragment
-import com.paktalin.vocabularynotebook.ui.WordItemInfoActivity
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val context: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -39,17 +37,15 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     override fun getItemCount(): Int { return wordItems.size }
 
     private fun openWordItemInfo(wordItem: WordItem) {
-       /* val intentWordItemInfo = Intent(context, WordItemInfoActivity::class.java)
-        intentWordItemInfo.putExtra("wordItem", wordItem)
-        context.startActivity(intentWordItemInfo)*/
-
-        Log.d(TAG, "starting transaction")
-        //todo start word info fragment
-        /*(context as MainActivity).supportFragmentManager.beginTransaction().add(R.id.for_fragment, WordInfoFragment()).commit()*/
+        val wordInfoFragment = WordInfoFragment()
+        val arguments = Bundle()
+        arguments.putSerializable("wordItem", wordItem)
+        wordInfoFragment.arguments = arguments
+        (activity as MainActivity).supportFragmentManager.beginTransaction().add(R.id.content, wordInfoFragment).commit()
     }
 
     private fun showPopupMenu(v: View, position: Int) {
-        val popup = PopupMenu(context, v)
+        val popup = PopupMenu(activity, v)
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {

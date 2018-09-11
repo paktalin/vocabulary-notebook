@@ -2,6 +2,7 @@ package com.paktalin.vocabularynotebook
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
+import com.paktalin.vocabularynotebook.app_setup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.ui.LogInActivity
 import com.paktalin.vocabularynotebook.pojo.UserPojo
 import com.paktalin.vocabularynotebook.pojo.VocabularyPojo
