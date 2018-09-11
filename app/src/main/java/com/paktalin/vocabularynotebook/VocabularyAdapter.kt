@@ -62,6 +62,12 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         this.notifyItemInserted(0)
     }
 
+    fun updateWordItem(updatedWordItem: WordItem) {
+        val updatedItemId = wordItems.indexOf(updatedWordItem)
+        wordItems[updatedItemId] = updatedWordItem
+        this.notifyDataSetChanged()
+    }
+
     @SuppressLint("ResourceType")
     private fun editWordItem(container:View, wordItem: WordItem) {
         //set container id

@@ -6,15 +6,15 @@ import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import java.io.Serializable
 
 class WordItem(word: String, translation: String, var id: String, private val vocabularyId: String) : Serializable {
-    var pojo: WordItemPojo? = null
+    var pojo: Pojo? = null
 
-    class WordItemPojo(var word: String?, var translation: String?) : Serializable
+    class Pojo(var word: String?, var translation: String?) : Serializable
 
     init {
-        this.pojo = WordItemPojo(word, translation)
+        this.pojo = Pojo(word, translation)
     }
 
-    constructor(pojo: WordItemPojo, id: String, vocabularyId: String)
+    constructor(pojo: Pojo, id: String, vocabularyId: String)
             : this(pojo.word!!, pojo.translation!!, id, vocabularyId)
 
     fun delete() {

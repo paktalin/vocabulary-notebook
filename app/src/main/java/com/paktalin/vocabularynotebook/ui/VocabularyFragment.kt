@@ -63,4 +63,8 @@ class VocabularyFragment : Fragment() {
     fun addWordItem(newWordItem: WordItem) {
         (recyclerView.adapter as VocabularyAdapter).addWordItem(newWordItem)
     }
+
+    fun updateWordItem(updatedWordItem: WordItem) {
+        (recyclerView.adapter as VocabularyAdapter).updateWordItem(updatedWordItem)
+    }
 }

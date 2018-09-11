@@ -20,7 +20,44 @@
         android:layout_marginStart="8dp"
         tools:ignore="ContentDescription" />
 
-    <include layout="@layout/editable_word_item" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@android:color/transparent">
+
+        <EditText
+            android:id="@+id/word"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_new_word"
+            android:inputType="text"
+            android:textSize="22sp"
+            app:fontFamily="@font/neucha"
+            android:textColor="#000F55"
+            tools:ignore="LabelFor" />
+
+        <EditText
+            android:id="@+id/translation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_translation"
+            android:inputType="text"
+            android:textSize="22sp"
+            app:fontFamily="@font/neucha"
+            android:textColor="#000F55"
+            tools:ignore="LabelFor" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnClear"
