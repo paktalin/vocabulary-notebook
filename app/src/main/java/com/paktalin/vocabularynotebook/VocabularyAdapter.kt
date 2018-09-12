@@ -84,9 +84,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
 
     private fun sortByTime() {
         wordItems.sortWith(Comparator { item1, item2 ->
-            -item1.pojo.time!!.compareTo(item2.pojo.time)
-        })
-        wordItems.forEach{ item -> Log.d(TAG, item.pojo.print())}
+            -item1.pojo.time!!.compareTo(item2.pojo.time) })
     }
 
     fun sort() {

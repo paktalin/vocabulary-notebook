@@ -32,8 +32,8 @@ class EditWordFragment : WordFragment() {
     }
 
     private fun setWordItemData() {
-        word.setText(wordItem.pojo!!.word)
-        translation.setText(wordItem.pojo!!.translation)
+        word.setText(wordItem.pojo.word)
+        translation.setText(wordItem.pojo.translation)
     }
 
     private fun setFocusOnWord() {

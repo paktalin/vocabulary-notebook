@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -14,6 +15,7 @@ import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
+import java.util.*
 
 class VocabularyFragment : Fragment() {
     companion object {
@@ -64,9 +66,10 @@ class VocabularyFragment : Fragment() {
         val wordItems: MutableList<WordItem> = mutableListOf()
 
         for (ref in documents) {
-            val word = ref.get("word").toString()
-            val translation = ref.get("translation").toString()
-            wordItems.add(WordItem(word, translation, ref.id, vocabularyId))
+            val word = ref["word"].toString()
+            val translation = ref["translation"].toString()
+            val time = ref["time"] as Timestamp
+            wordItems.add(WordItem(word, translation, time.toDate(), ref.id, vocabularyId))
         }
 
         val adapter = VocabularyAdapter(wordItems, activity!!)
