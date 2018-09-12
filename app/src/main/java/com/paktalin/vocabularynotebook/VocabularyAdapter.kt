@@ -6,16 +6,16 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import java.util.*
 
-class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
     private var sortOrder:Int = 0
@@ -32,14 +32,14 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val wordItem = wordItems[position]
+        val wordItem = vocabulary.words[position]
         holder.tvWord.text = wordItem.pojo.word
         holder.tvTranslation.text = wordItem.pojo.translation
         holder.itemView.setOnClickListener { showPopupMenu(holder.itemView, position) }
         //todo set click listener to menu
     }
 
-    override fun getItemCount(): Int { return wordItems.size }
+    override fun getItemCount(): Int { return vocabulary.words.size }
 
     private fun showPopupMenu(v: View, position: Int) {
         val popup = PopupMenu(activity, v)
@@ -47,43 +47,43 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
             if (it.itemId == R.id.option_delete) { deleteWordItem(position) }
-            if (it.itemId == R.id.option_edit) { editWordItem(v, wordItems[position]) }
+            if (it.itemId == R.id.option_edit) { editWordItem(v, vocabulary.words[position]) }
             true
         }
         popup.show()
     }
 
     private fun deleteWordItem(position: Int) {
-        wordItems[position].delete()
-        wordItems.removeAt(position)
+        vocabulary.words[position].delete()
+        vocabulary.words.removeAt(position)
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
-        this.notifyItemRangeChanged(position, wordItems.size)
+        this.notifyItemRangeChanged(position, vocabulary.words.size)
     }
 
     fun addWordItem(newWordItem: WordItem) {
-        wordItems.add(0, newWordItem)
+        vocabulary.words.add(0, newWordItem)
         this.sort()
     }
 
     fun updateWordItem(updatedWordItem: WordItem) {
-        val updatedItemId = wordItems.indexOf(updatedWordItem)
-        wordItems[updatedItemId] = updatedWordItem
+        val updatedItemId = vocabulary.words.indexOf(updatedWordItem)
+        vocabulary.words[updatedItemId] = updatedWordItem
         this.sort()
     }
 
     private fun sortByTranslation() {
-        wordItems.sortWith(Comparator { item1, item2 ->
+        vocabulary.words.sortWith(Comparator { item1, item2 ->
             item1.pojo.translation.compareTo(item2.pojo.translation) })
     }
 
     private fun sortByWord() {
-        wordItems.sortWith(Comparator { item1, item2 ->
+        vocabulary.words.sortWith(Comparator { item1, item2 ->
             item1.pojo.word.compareTo(item2.pojo.word) })
     }
 
     private fun sortByTime() {
-        wordItems.sortWith(Comparator { item1, item2 ->
+        vocabulary.words.sortWith(Comparator { item1, item2 ->
             -item1.pojo.time!!.compareTo(item2.pojo.time) })
     }
 

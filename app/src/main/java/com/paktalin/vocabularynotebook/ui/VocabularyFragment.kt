@@ -13,9 +13,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
-import java.util.*
 
 class VocabularyFragment : Fragment() {
     companion object {
@@ -44,7 +44,7 @@ class VocabularyFragment : Fragment() {
 
     private fun setEmptyAdapter() {
         val emptyList: MutableList<WordItem> = mutableListOf()
-        recyclerView.adapter = VocabularyAdapter(emptyList, activity!!)
+        recyclerView.adapter = VocabularyAdapter(Vocabulary(emptyList), activity!!)
         val mLayoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = mLayoutManager
     }
@@ -57,7 +57,7 @@ class VocabularyFragment : Fragment() {
                     if (it.documents.size != 0)
                         setVocabularyAdapter(it.documents, vocabularyId)
                 else {
-                        Log.i(TAG, "There are no documents in collection \"words\"")
+                        Log.i(TAG, "There are no documents in collection \"WORDS\"")
                         (activity as MainActivity).showToastNoWords()
                     }}
     }
@@ -72,7 +72,8 @@ class VocabularyFragment : Fragment() {
             wordItems.add(WordItem(word, translation, time.toDate(), ref.id, vocabularyId))
         }
 
-        val adapter = VocabularyAdapter(wordItems, activity!!)
+        val vocabulary = Vocabulary(wordItems)
+        val adapter = VocabularyAdapter(vocabulary, activity!!)
         recyclerView.adapter = adapter
     }
 

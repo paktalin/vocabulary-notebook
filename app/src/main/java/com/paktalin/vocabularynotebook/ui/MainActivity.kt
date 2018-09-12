@@ -80,7 +80,9 @@ class MainActivity : AppCompatActivity() {
                         arguments.putString("vocabularyId", vocabularyId)
                         vocabularyFragment.arguments = arguments
                         supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment).commitNowAllowingStateLoss()
-                    } else { showToastNoWords() }
+                    } else {
+                        Log.w(TAG, "There's no collection \"vocabularies\"")
+                        showToastNoWords() }
         }
     }
 
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showToastNoWords() {
         Toast.makeText(this@MainActivity,
-                "You don't have any words yet. Add your fist one!", Toast.LENGTH_SHORT).show()
+                "You don't have any WORDS yet. Add your fist one!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onPause() {

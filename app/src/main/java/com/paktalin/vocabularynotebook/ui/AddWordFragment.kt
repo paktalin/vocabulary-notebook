@@ -20,8 +20,8 @@ class AddWordFragment : WordFragment() {
     override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
         mainActivity.showProgressBar()
         ConfiguredFirestore.instance
-                .collection(vocabularies).document(vocabularyId)
-                .collection(words).add(wordPojo)
+                .collection(VOCABULARIES).document(vocabularyId)
+                .collection(WORDS).add(wordPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully added a new word")
                     clearFields()

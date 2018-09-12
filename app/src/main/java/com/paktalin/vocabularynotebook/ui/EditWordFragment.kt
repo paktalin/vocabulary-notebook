@@ -53,8 +53,8 @@ class EditWordFragment : WordFragment() {
     override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
         mainActivity.showProgressBar()
         ConfiguredFirestore.instance
-                .collection(vocabularies).document(vocabularyId)
-                .collection(words).document(wordItem.id).set(wordPojo)
+                .collection(VOCABULARIES).document(vocabularyId)
+                .collection(WORDS).document(wordItem.id).set(wordPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully updated the word")
                     hideSubmitButton()
