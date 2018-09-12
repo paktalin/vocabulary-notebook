@@ -62,34 +62,31 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
     fun addWordItem(newWordItem: WordItem) {
         wordItems.add(0, newWordItem)
         this.sort()
-        this.notifyItemInserted(0)
     }
 
     fun updateWordItem(updatedWordItem: WordItem) {
         val updatedItemId = wordItems.indexOf(updatedWordItem)
         wordItems[updatedItemId] = updatedWordItem
         this.sort()
-        this.notifyDataSetChanged()
     }
 
     private fun sortByTranslation() {
         wordItems.sortWith(Comparator { item1, item2 ->
             item1.pojo!!.translation!!.compareTo(item2.pojo!!.translation!!)
         })
-        this.notifyDataSetChanged()
     }
 
     private fun sortByWord() {
         wordItems.sortWith(Comparator { item1, item2 ->
             item1.pojo!!.word!!.compareTo(item2.pojo!!.word!!)
         })
-        this.notifyDataSetChanged()
     }
 
     fun sort() {
         sortByWord = !sortByWord
         if (sortByWord) sortByWord()
         else sortByTranslation()
+        this.notifyDataSetChanged()
     }
 
     @SuppressLint("ResourceType")
