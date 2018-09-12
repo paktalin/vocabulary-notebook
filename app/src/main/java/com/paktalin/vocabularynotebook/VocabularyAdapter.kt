@@ -6,9 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import java.util.*
@@ -16,7 +18,7 @@ import java.util.*
 class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
-    private var sortByWord = true
+    private var sortOrder:Int = 0
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -31,8 +33,8 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wordItem = wordItems[position]
-        holder.tvWord.text = wordItem.pojo!!.word
-        holder.tvTranslation.text = wordItem.pojo!!.translation
+        holder.tvWord.text = wordItem.pojo.word
+        holder.tvTranslation.text = wordItem.pojo.translation
         holder.itemView.setOnClickListener { showPopupMenu(holder.itemView, position) }
         //todo set click listener to menu
     }
@@ -72,20 +74,30 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
 
     private fun sortByTranslation() {
         wordItems.sortWith(Comparator { item1, item2 ->
-            item1.pojo!!.translation!!.compareTo(item2.pojo!!.translation!!)
-        })
+            item1.pojo.translation.compareTo(item2.pojo.translation) })
     }
 
     private fun sortByWord() {
         wordItems.sortWith(Comparator { item1, item2 ->
-            item1.pojo!!.word!!.compareTo(item2.pojo!!.word!!)
+            item1.pojo.word.compareTo(item2.pojo.word) })
+    }
+
+    private fun sortByTime() {
+        wordItems.sortWith(Comparator { item1, item2 ->
+            -item1.pojo.time!!.compareTo(item2.pojo.time)
         })
+        wordItems.forEach{ item -> Log.d(TAG, item.pojo.print())}
     }
 
     fun sort() {
-        sortByWord = !sortByWord
-        if (sortByWord) sortByWord()
-        else sortByTranslation()
+        if (sortOrder == 2) sortOrder = 0
+        else sortOrder++
+
+        when(sortOrder) {
+            0 -> sortByTime()
+            1 -> sortByWord()
+            2 -> sortByTranslation()
+        }
         this.notifyDataSetChanged()
     }
 

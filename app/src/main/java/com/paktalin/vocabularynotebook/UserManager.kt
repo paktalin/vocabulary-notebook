@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.ui.LogInActivity
-import com.paktalin.vocabularynotebook.pojo.UserPojo
-import com.paktalin.vocabularynotebook.pojo.Vocabulary
+import com.paktalin.vocabularynotebook.firestoreitems.UserPojo
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import java.util.*
 
 class UserManager {

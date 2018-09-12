@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
+import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class VocabularyFragment : Fragment() {
@@ -43,7 +45,9 @@ class VocabularyFragment : Fragment() {
     }
 
     fun retrieveWordsData(vocabularyId: String) {
-        db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS).orderBy("word").get()
+        db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS)
+                .orderBy("time", Query.Direction.DESCENDING)
+                .get()
                 .addOnSuccessListener {
                     if (it.documents.size != 0)
                         setVocabularyAdapter(it.documents, vocabularyId)

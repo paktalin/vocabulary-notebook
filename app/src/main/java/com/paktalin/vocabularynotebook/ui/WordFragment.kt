@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.WordItem
+import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
 abstract class WordFragment : Fragment() {
@@ -70,7 +70,7 @@ abstract class WordFragment : Fragment() {
         val word = word.text.toString()
         val translation = translation.text.toString()
         val vocabularyId = (activity as MainActivity).vocabularyId
-        val wordPojo = WordItem.Pojo(word, translation)
+        val wordPojo = WordItem.Pojo(word, translation, null)
 
         saveToFirestore(wordPojo, vocabularyId)
     }
@@ -80,6 +80,6 @@ abstract class WordFragment : Fragment() {
         translation.text.clear()
     }
 
-    protected abstract fun saveToFirestore(wordPojo:WordItem.Pojo, vocabularyId:String)
+    protected abstract fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId:String)
     protected abstract fun updateRecycleView(wordItem: WordItem)
 }

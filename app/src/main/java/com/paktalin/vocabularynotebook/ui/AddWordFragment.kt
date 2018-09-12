@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.WordItem
+import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 
 class AddWordFragment : WordFragment() {
 
