@@ -1,6 +1,6 @@
 package com.paktalin.vocabularynotebook.firestoreitems
 
-class Vocabulary(var words: MutableList<WordItem>) {
+class Vocabulary(words: MutableList<WordItem>) {
     companion object {
         private val TAG = "VN/" + Vocabulary::class.java.simpleName
 
@@ -11,6 +11,9 @@ class Vocabulary(var words: MutableList<WordItem>) {
 
     var pojo:Pojo
 
+    //todo set private
+    var words: MutableList<WordItem>
+
     class Pojo(var title:String?) {
         init {
             if (title == null) title = "Untitled vocabulary"
@@ -18,7 +21,8 @@ class Vocabulary(var words: MutableList<WordItem>) {
     }
 
     init {
-        pojo = Pojo(null)
+        this.pojo = Pojo(null)
+        this.words = words
     }
 
     fun sort(sortOrder:Int) {
@@ -29,6 +33,18 @@ class Vocabulary(var words: MutableList<WordItem>) {
         }
     }
 
+    fun deleteWord(position:Int) {
+        words[position].delete() // delete word from the database
+        words.removeAt(position) // delete word from the list
+    }
+
+    fun addWord(newWord:WordItem) {
+        words.add(0, newWord)
+    }
+
+    fun size():Int { return words.size }
+
+    //region Private methods
     private fun sortByTime() {
         words.sortWith(Comparator { item1, item2 ->
             -item1.pojo.time!!.compareTo(item2.pojo.time) })
@@ -41,5 +57,5 @@ class Vocabulary(var words: MutableList<WordItem>) {
         words.sortWith(Comparator { item1, item2 ->
             item1.pojo.translation.compareTo(item2.pojo.translation) })
     }
-
+    //endregion
 }

@@ -13,7 +13,6 @@ import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
-import java.util.*
 
 class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
@@ -39,34 +38,34 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         //todo set click listener to menu
     }
 
-    override fun getItemCount(): Int { return vocabulary.words.size }
+    override fun getItemCount(): Int { return vocabulary.size() }
 
     private fun showPopupMenu(v: View, position: Int) {
         val popup = PopupMenu(activity, v)
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
-            if (it.itemId == R.id.option_delete) { deleteWordItem(position) }
-            if (it.itemId == R.id.option_edit) { editWordItem(v, vocabulary.words[position]) }
+            if (it.itemId == R.id.option_delete) { deleteWord(position) }
+            if (it.itemId == R.id.option_edit) { editWord(v, vocabulary.words[position]) }
             true
         }
         popup.show()
     }
 
-    private fun deleteWordItem(position: Int) {
-        vocabulary.words[position].delete()
-        vocabulary.words.removeAt(position)
+    private fun deleteWord(position: Int) {
+        vocabulary.deleteWord(position)
+        // update recyclerView
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
-        this.notifyItemRangeChanged(position, vocabulary.words.size)
+        this.notifyItemRangeChanged(position, vocabulary.size())
     }
 
-    fun addWordItem(newWordItem: WordItem) {
-        vocabulary.words.add(0, newWordItem)
+    fun addWord(newWord: WordItem) {
+        vocabulary.addWord(newWord)
         this.sort()
     }
 
-    fun updateWordItem(updatedWordItem: WordItem) {
+    fun updateWord(updatedWordItem: WordItem) {
         val updatedItemId = vocabulary.words.indexOf(updatedWordItem)
         vocabulary.words[updatedItemId] = updatedWordItem
         this.sort()
@@ -82,7 +81,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
     }
 
     @SuppressLint("ResourceType")
-    private fun editWordItem(container:View, wordItem: WordItem) {
+    private fun editWord(container:View, wordItem: WordItem) {
         //set container id
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             container.id = View.generateViewId()
