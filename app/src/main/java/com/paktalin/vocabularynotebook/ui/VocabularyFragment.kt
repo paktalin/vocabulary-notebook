@@ -43,7 +43,7 @@ class VocabularyFragment : Fragment() {
     }
 
     fun retrieveWordsData(vocabularyId: String) {
-        db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS).get()
+        db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS).orderBy("word").get()
                 .addOnSuccessListener { setVocabularyAdapter(it.documents, vocabularyId) }
     }
 

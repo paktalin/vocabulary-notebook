@@ -15,7 +15,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
+import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.sort)
-            Log.d(TAG, "sort")
+            (recyclerView.adapter as VocabularyAdapter).sort()
         return super.onOptionsItemSelected(item)
     }
 

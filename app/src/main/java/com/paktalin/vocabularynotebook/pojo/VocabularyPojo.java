@@ -2,7 +2,7 @@ package com.paktalin.vocabularynotebook.pojo;
 
 public class VocabularyPojo {
 
-    String title;
+    private String title;
 
     public VocabularyPojo() {
         title = "First vocabulary";

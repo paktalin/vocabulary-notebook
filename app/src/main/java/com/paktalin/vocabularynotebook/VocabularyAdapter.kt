@@ -11,10 +11,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
+import java.util.*
 
 class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
+    private var sortByWord = true
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -66,6 +68,26 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
         val updatedItemId = wordItems.indexOf(updatedWordItem)
         wordItems[updatedItemId] = updatedWordItem
         this.notifyDataSetChanged()
+    }
+
+    private fun sortByTranslation() {
+        wordItems.sortWith(Comparator { item1, item2 ->
+            item1.pojo!!.translation!!.compareTo(item2.pojo!!.translation!!)
+        })
+        this.notifyDataSetChanged()
+    }
+
+    private fun sortByWord() {
+        wordItems.sortWith(Comparator { item1, item2 ->
+            item1.pojo!!.word!!.compareTo(item2.pojo!!.word!!)
+        })
+        this.notifyDataSetChanged()
+    }
+
+    fun sort() {
+        sortByWord = !sortByWord
+        if (sortByWord) sortByWord()
+        else sortByTranslation()
     }
 
     @SuppressLint("ResourceType")
