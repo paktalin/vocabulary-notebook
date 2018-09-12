@@ -66,9 +66,7 @@ class EditWordFragment : WordFragment() {
                     Toast.makeText(mainActivity, "Couldn't update the word", Toast.LENGTH_SHORT).show()}    }
 
     override fun updateRecycleView(wordItem: WordItem) {
-        val vocabularyFragment = mainActivity
-                .supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment
-        vocabularyFragment.updateWordItem(wordItem)
+        mainActivity.vocabularyFragment.updateWordItem(wordItem)
     }
 
     companion object { private val TAG = "VN/" + EditWordFragment::class.java.simpleName }

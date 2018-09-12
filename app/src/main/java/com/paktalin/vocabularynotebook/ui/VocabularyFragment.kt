@@ -3,6 +3,7 @@ package com.paktalin.vocabularynotebook.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +28,11 @@ class VocabularyFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setEmptyAdapter()
+        retrieveWordsData(arguments!!["vocabularyId"] as String)
     }
 
     override fun onDestroy() {
@@ -44,14 +47,17 @@ class VocabularyFragment : Fragment() {
         recyclerView.layoutManager = mLayoutManager
     }
 
-    fun retrieveWordsData(vocabularyId: String) {
+    private fun retrieveWordsData(vocabularyId: String) {
         db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS)
                 .orderBy("time", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener {
                     if (it.documents.size != 0)
                         setVocabularyAdapter(it.documents, vocabularyId)
-                else (activity as MainActivity).showToastNoWords()}
+                else {
+                        Log.i(TAG, "There are no documents in collection \"words\"")
+                        (activity as MainActivity).showToastNoWords()
+                    }}
     }
 
     private fun setVocabularyAdapter(documents: MutableList<DocumentSnapshot>, vocabularyId: String) {

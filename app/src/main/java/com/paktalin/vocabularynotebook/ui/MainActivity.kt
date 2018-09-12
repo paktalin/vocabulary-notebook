@@ -23,14 +23,13 @@ import kotlinx.android.synthetic.main.fragment_vocabulary.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var vocabularyId: String
-    private lateinit var vocabularyFragment: VocabularyFragment
+    lateinit var vocabularyFragment: VocabularyFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         hideKeyboard()
         setUpNavigationView()
-        vocabularyFragment = supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment
         extractVocabularyData()
     }
 
@@ -74,7 +73,13 @@ class MainActivity : AppCompatActivity() {
                         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
                         val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
                         vocabularyId = vocabulary.id
-                        vocabularyFragment.retrieveWordsData(vocabularyId)
+
+                        // start VocabularyFragment
+                        vocabularyFragment = VocabularyFragment()
+                        val arguments = Bundle()
+                        arguments.putString("vocabularyId", vocabularyId)
+                        vocabularyFragment.arguments = arguments
+                        supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment).commitNowAllowingStateLoss()
                     } else { showToastNoWords() }
         }
     }
