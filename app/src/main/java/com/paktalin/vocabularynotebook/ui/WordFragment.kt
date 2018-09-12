@@ -78,9 +78,8 @@ abstract class WordFragment : Fragment() {
         val word = word.text.toString()
         val translation = translation.text.toString()
         val vocabularyId = mainActivity.vocabularyId
-        val wordPojo = WordItem.Pojo(word, translation, null)
-
-        saveToFirestore(wordPojo, vocabularyId)
+        mainActivity.showProgressBar()
+        saveToFirestore(word, translation, vocabularyId)
         return
     }
 
@@ -89,6 +88,6 @@ abstract class WordFragment : Fragment() {
         translation.text.clear()
     }
 
-    protected abstract fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId:String)
+    protected abstract fun saveToFirestore(word:String, translation:String, vocabularyId:String)
     protected abstract fun updateRecycleView(wordItem: WordItem)
 }

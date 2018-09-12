@@ -7,8 +7,8 @@ import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 
 class AddWordFragment : WordFragment() {
 
-    override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
-        mainActivity.showProgressBar()
+    override fun saveToFirestore(word:String, translation:String, vocabularyId: String) {
+        val wordPojo = WordItem.Pojo(word, translation, null)
         ConfiguredFirestore.instance
                 .collection(VOCABULARIES).document(vocabularyId)
                 .collection(WORDS).add(wordPojo)

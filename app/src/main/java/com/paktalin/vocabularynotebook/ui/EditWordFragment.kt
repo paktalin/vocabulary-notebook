@@ -49,8 +49,8 @@ class EditWordFragment : WordFragment() {
         }
     }
 
-    override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
-        mainActivity.showProgressBar()
+    override fun saveToFirestore(word:String, translation:String, vocabularyId: String) {
+        val wordPojo = WordItem.Pojo(word, translation, wordItem.pojo.time)
         ConfiguredFirestore.instance
                 .collection(VOCABULARIES).document(vocabularyId)
                 .collection(WORDS).document(wordItem.id).set(wordPojo)
