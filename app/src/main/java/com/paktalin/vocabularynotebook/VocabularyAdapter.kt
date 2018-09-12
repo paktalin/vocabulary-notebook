@@ -72,30 +72,12 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         this.sort()
     }
 
-    private fun sortByTranslation() {
-        vocabulary.words.sortWith(Comparator { item1, item2 ->
-            item1.pojo.translation.compareTo(item2.pojo.translation) })
-    }
-
-    private fun sortByWord() {
-        vocabulary.words.sortWith(Comparator { item1, item2 ->
-            item1.pojo.word.compareTo(item2.pojo.word) })
-    }
-
-    private fun sortByTime() {
-        vocabulary.words.sortWith(Comparator { item1, item2 ->
-            -item1.pojo.time!!.compareTo(item2.pojo.time) })
-    }
-
     fun sort() {
+        // update SortOrder
         if (sortOrder == 2) sortOrder = 0
         else sortOrder++
 
-        when(sortOrder) {
-            0 -> sortByTime()
-            1 -> sortByWord()
-            2 -> sortByTranslation()
-        }
+        vocabulary.sort(sortOrder)
         this.notifyDataSetChanged()
     }
 

@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         userDocument.get()
                 .addOnSuccessListener { task ->
                     hideProgressBar()
+                    //todo move Firestore logic and collections names to a separate class
                     if (task.get("vocabularies") != null) {
                         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
                         val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
