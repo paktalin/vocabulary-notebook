@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_new_word.*
+import kotlinx.android.synthetic.main.notebook_sheet.*
+import kotlinx.android.synthetic.main.word_item.view.*
 
 class EditWordFragment : WordFragment() {
     private lateinit var wordItem: WordItem
@@ -45,9 +43,9 @@ class EditWordFragment : WordFragment() {
 
     private fun hidePreviousViews(container: ViewGroup?) {
         if (container != null) {
-            container.findViewById<ImageView>(R.id.line).visibility = View.GONE
-            container.findViewById<TextView>(R.id.word).visibility = View.GONE
-            container.findViewById<TextView>(R.id.translation).visibility = View.GONE
+            container.line.visibility = View.GONE
+            container.word.visibility = View.GONE
+            container.translation.visibility = View.GONE
         }
     }
 
@@ -62,18 +60,26 @@ class EditWordFragment : WordFragment() {
                     mainActivity.hideProgressBar()
                     wordItem.pojo = wordPojo
                     updateRecycleView(wordItem)
-
-                    // set onClickListener from AddWordFragment
-                    mainActivity.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener {
-                        (mainActivity.supportFragmentManager.findFragmentById(R.id.fragment_new_word) as AddWordFragment).submitWord()}
-                    mainActivity.removeFragment(this@EditWordFragment) }
+                    stop()
+                }
                 .addOnFailureListener {
                     Log.w(TAG, "updateExistingWord:failure", it.fillInStackTrace())
-                    Toast.makeText(mainActivity, "Couldn't update the word", Toast.LENGTH_SHORT).show()}    }
+                    Toast.makeText(mainActivity, "Couldn't update the word", Toast.LENGTH_SHORT).show()
+                    stop()
+                }
+    }
+
+    private fun stop() {
+        // set onClickListener from AddWordFragment
+        mainActivity.btnSubmit.setOnClickListener { (mainActivity.fragmentNewWord as AddWordFragment).submitWord() }
+        mainActivity.removeFragment(this)
+    }
 
     override fun updateRecycleView(wordItem: WordItem) {
         mainActivity.vocabularyFragment.updateWordItem(wordItem)
     }
 
-    companion object { private val TAG = "VN/" + EditWordFragment::class.java.simpleName }
+    companion object {
+        private val TAG = "VN/" + EditWordFragment::class.java.simpleName
+    }
 }

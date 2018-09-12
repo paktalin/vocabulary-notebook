@@ -13,6 +13,7 @@ import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
+import kotlinx.android.synthetic.main.word_item.view.*
 
 class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
@@ -98,9 +99,9 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvWord: TextView = itemView.findViewById(R.id.word)
-        val tvTranslation: TextView = itemView.findViewById(R.id.translation)
-        val layout: LinearLayout = itemView.findViewById(R.id.layout)
+        val tvWord: TextView = itemView.word
+        val tvTranslation: TextView = itemView.translation
+        val layout: LinearLayout = itemView.layout
     }
 
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
