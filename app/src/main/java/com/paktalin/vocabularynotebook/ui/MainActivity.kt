@@ -15,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
@@ -71,11 +72,10 @@ class MainActivity : AppCompatActivity() {
                     hideProgressBar()
                     if (task.get("vocabularies") != null) {
                         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
-                        //todo represent specific vocabulary instead of the first one
                         val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
                         vocabularyId = vocabulary.id
                         vocabularyFragment.retrieveWordsData(vocabularyId)
-                    }
+                    } else { showToastNoWords() }
         }
     }
 
@@ -92,12 +92,13 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun showProgressBar() {
-        progress.visibility = View.VISIBLE
-    }
+    fun showProgressBar() { progress.visibility = View.VISIBLE }
 
-    fun hideProgressBar() {
-        progress.visibility = View.GONE
+    fun hideProgressBar() { progress.visibility = View.GONE }
+
+    fun showToastNoWords() {
+        Toast.makeText(this@MainActivity,
+                "You don't have any words yet. Add your fist one!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onPause() {

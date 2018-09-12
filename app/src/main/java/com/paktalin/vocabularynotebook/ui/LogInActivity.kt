@@ -37,9 +37,9 @@ class LogInActivity : AppCompatActivity() {
         val password = etPassword!!.text.toString()
 
         if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
-            progress.visibility = View.VISIBLE
+            showProgressBar()
             mAuth!!.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { progress.visibility = View.GONE }
+                    .addOnCompleteListener { hideProgressBar() }
                     .addOnSuccessListener {
                         Log.d(TAG, "Successfully signed in")
                         startUserActivity()
@@ -59,7 +59,9 @@ class LogInActivity : AppCompatActivity() {
         if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
             //todo check if the password is good
             // todo verify email
+            showProgressBar()
             mAuth!!.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { hideProgressBar() }
                     .addOnSuccessListener { _ ->
                         Log.d(TAG, "Successfully signed up a new user")
                         UserManager.addNewUserToDb(mAuth!!.currentUser!!, this)
@@ -76,6 +78,10 @@ class LogInActivity : AppCompatActivity() {
         val userActivityIntent = Intent(this@LogInActivity, MainActivity::class.java)
         startActivity(userActivityIntent)
     }
+
+    private fun showProgressBar() { progress.visibility = View.VISIBLE }
+
+    private fun hideProgressBar() { progress.visibility = View.GONE }
 
     @SuppressLint("SetTextI18n")
     private fun createRandomUser() {

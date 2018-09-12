@@ -44,7 +44,10 @@ class VocabularyFragment : Fragment() {
 
     fun retrieveWordsData(vocabularyId: String) {
         db.collection(VOCABULARIES).document(vocabularyId).collection(WORDS).orderBy("word").get()
-                .addOnSuccessListener { setVocabularyAdapter(it.documents, vocabularyId) }
+                .addOnSuccessListener {
+                    if (it.documents.size != 0)
+                        setVocabularyAdapter(it.documents, vocabularyId)
+                else (activity as MainActivity).showToastNoWords()}
     }
 
     private fun setVocabularyAdapter(documents: MutableList<DocumentSnapshot>, vocabularyId: String) {

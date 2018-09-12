@@ -61,12 +61,14 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
 
     fun addWordItem(newWordItem: WordItem) {
         wordItems.add(0, newWordItem)
+        this.sort()
         this.notifyItemInserted(0)
     }
 
     fun updateWordItem(updatedWordItem: WordItem) {
         val updatedItemId = wordItems.indexOf(updatedWordItem)
         wordItems[updatedItemId] = updatedWordItem
+        this.sort()
         this.notifyDataSetChanged()
     }
 
