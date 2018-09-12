@@ -13,4 +13,5 @@
     <string name="hint_translation">translation</string>
     <string name="menu_option_delete">Delete</string>
     <string name="menu_option_edit">Edit</string>
+    <string name="option_sort">Sort</string>
 </resources>

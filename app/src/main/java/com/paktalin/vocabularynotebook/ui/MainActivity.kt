@@ -11,9 +11,10 @@ import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.paktalin.vocabularynotebook.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,17 @@ class MainActivity : AppCompatActivity() {
         setUpNavigationView()
         vocabularyFragment = supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment
         extractVocabularyData()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item!!.itemId == R.id.sort)
+            Log.d(TAG, "sort")
+        return super.onOptionsItemSelected(item)
     }
 
     private fun logOut() {

@@ -75,7 +75,7 @@ class VocabularyAdapter(private val wordItems: MutableList<WordItem>, private va
             container.id = View.generateViewId()
         } else container.id = 18071999
 
-        // start fragment
+        // start EditWordFragment
         val wordInfoFragment = EditWordFragment()
         val arguments = Bundle()
         arguments.putSerializable("wordItem", wordItem)
