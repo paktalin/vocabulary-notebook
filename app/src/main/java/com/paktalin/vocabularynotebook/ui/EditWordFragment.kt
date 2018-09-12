@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,7 +23,7 @@ class EditWordFragment : WordFragment() {
         mainActivity = activity as MainActivity
         hidePreviousViews(container)
         wordItem = arguments!!["wordItem"] as WordItem
-        return inflater.inflate(R.layout.fragment_new_word, container, false)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -60,7 +61,12 @@ class EditWordFragment : WordFragment() {
                     hideSubmitButton()
                     mainActivity.hideProgressBar()
                     wordItem.pojo = wordPojo
-                    updateRecycleView(wordItem) }
+                    updateRecycleView(wordItem)
+
+                    // set onClickListener from AddWordFragment
+                    mainActivity.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener {
+                        (mainActivity.supportFragmentManager.findFragmentById(R.id.fragment_new_word) as AddWordFragment).submitWord()}
+                    mainActivity.removeFragment(this@EditWordFragment) }
                 .addOnFailureListener {
                     Log.w(TAG, "updateExistingWord:failure", it.fillInStackTrace())
                     Toast.makeText(mainActivity, "Couldn't update the word", Toast.LENGTH_SHORT).show()}    }

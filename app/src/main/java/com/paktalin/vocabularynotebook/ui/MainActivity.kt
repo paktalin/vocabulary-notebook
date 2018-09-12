@@ -11,6 +11,7 @@ import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
+import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -80,7 +81,8 @@ class MainActivity : AppCompatActivity() {
                         val arguments = Bundle()
                         arguments.putString("vocabularyId", vocabularyId)
                         vocabularyFragment.arguments = arguments
-                        supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment).commitNowAllowingStateLoss()
+                        supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment)
+                                .commitNowAllowingStateLoss()
                     } else {
                         Log.w(TAG, "There's no collection \"vocabularies\"")
                         showToastNoWords() }
@@ -94,9 +96,7 @@ class MainActivity : AppCompatActivity() {
     fun hideKeyboardNotFromActivity(activity: Activity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         var view = activity.currentFocus
-        if (view == null) {
-            view = View(activity)
-        }
+        if (view == null) { view = View(activity) }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -106,7 +106,11 @@ class MainActivity : AppCompatActivity() {
 
     fun showToastNoWords() {
         Toast.makeText(this@MainActivity,
-                "You don't have any WORDS yet. Add your fist one!", Toast.LENGTH_SHORT).show()
+                "You don't have any words yet. Add your fist one!", Toast.LENGTH_SHORT).show()
+    }
+
+    fun removeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss()
     }
 
     override fun onPause() {

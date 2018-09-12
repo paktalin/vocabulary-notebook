@@ -90,11 +90,11 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         } else container.id = 18071999
 
         // start EditWordFragment
-        val wordInfoFragment = EditWordFragment()
+        val editWordFragment = EditWordFragment()
         val arguments = Bundle()
         arguments.putSerializable("wordItem", wordItem)
-        wordInfoFragment.arguments = arguments
-        (activity as MainActivity).supportFragmentManager.beginTransaction().add(container.id, wordInfoFragment).commit()
+        editWordFragment.arguments = arguments
+        (activity as MainActivity).supportFragmentManager.beginTransaction().add(container.id, editWordFragment).commit()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

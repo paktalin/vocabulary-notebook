@@ -30,7 +30,6 @@ class VocabularyFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setEmptyAdapter()
@@ -57,7 +56,7 @@ class VocabularyFragment : Fragment() {
                     if (it.documents.size != 0)
                         setVocabularyAdapter(it.documents, vocabularyId)
                 else {
-                        Log.i(TAG, "There are no documents in collection \"WORDS\"")
+                        Log.i(TAG, "There are no documents in collection \"words\"")
                         (activity as MainActivity).showToastNoWords()
                     }}
     }

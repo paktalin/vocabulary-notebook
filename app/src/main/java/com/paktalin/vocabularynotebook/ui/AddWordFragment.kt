@@ -1,21 +1,11 @@
 package com.paktalin.vocabularynotebook.ui
 
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
-import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 
 class AddWordFragment : WordFragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mainActivity = activity as MainActivity
-        return inflater.inflate(R.layout.fragment_new_word, container, false)
-    }
 
     override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
         mainActivity.showProgressBar()

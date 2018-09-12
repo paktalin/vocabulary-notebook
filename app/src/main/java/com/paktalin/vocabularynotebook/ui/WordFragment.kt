@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import com.paktalin.vocabularynotebook.R
@@ -18,6 +20,7 @@ abstract class WordFragment : Fragment() {
         const val WORDS = "words"
     }
     protected lateinit var mainActivity: MainActivity
+    open var TAG = WordFragment::class.simpleName
 
     private var wordEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
@@ -25,8 +28,14 @@ abstract class WordFragment : Fragment() {
     private var translationEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_new_word, container, false)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mainActivity = activity as MainActivity
+        mainActivity.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener { submitWord() }
         word.addTextChangedListener(textWatcher {
             wordEmpty = word.text.isEmpty() })
 
@@ -34,9 +43,7 @@ abstract class WordFragment : Fragment() {
             translationEmpty = translation.text.isEmpty() })
 
         btnClear.setOnClickListener { clearFields() }
-        activity!!.findViewById<ImageButton>(R.id.btnAddWord).setOnClickListener { submitWord() }
     }
-
 
     private fun updateButtons() {
         if (!wordEmpty || !translationEmpty)
@@ -58,24 +65,25 @@ abstract class WordFragment : Fragment() {
     }
 
     private fun showSubmitButton() {
-        activity!!.findViewById<FrameLayout>(R.id.btnSubmitLayout).visibility = View.VISIBLE }
+        mainActivity.findViewById<FrameLayout>(R.id.btnSubmitLayout).visibility = View.VISIBLE }
 
     protected fun hideSubmitButton() {
-        activity!!.findViewById<FrameLayout>(R.id.btnSubmitLayout).visibility = View.GONE }
+        mainActivity.findViewById<FrameLayout>(R.id.btnSubmitLayout).visibility = View.GONE }
 
     private fun hideClearButton() { btnClear.visibility = View.INVISIBLE }
 
     private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
-    private fun submitWord() {
-        (activity as MainActivity).hideKeyboardNotFromActivity(activity as MainActivity)
+    fun submitWord() {
+        mainActivity.hideKeyboardNotFromActivity(mainActivity)
 
         val word = word.text.toString()
         val translation = translation.text.toString()
-        val vocabularyId = (activity as MainActivity).vocabularyId
+        val vocabularyId = mainActivity.vocabularyId
         val wordPojo = WordItem.Pojo(word, translation, null)
 
         saveToFirestore(wordPojo, vocabularyId)
+        return
     }
 
     protected fun clearFields() {

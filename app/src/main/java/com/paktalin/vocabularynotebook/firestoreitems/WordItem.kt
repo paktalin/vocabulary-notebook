@@ -13,10 +13,6 @@ class WordItem(word: String, translation: String, time: Date?, var id: String, p
         init {
             if (time == null) time = Date(System.currentTimeMillis())
         }
-
-        fun print(): String {
-            return "word: $word; translation: $translation; time: $time"
-        }
     }
 
     constructor(pojo: Pojo, id: String, vocabularyId: String)
@@ -24,7 +20,7 @@ class WordItem(word: String, translation: String, time: Date?, var id: String, p
 
     fun delete() {
         ConfiguredFirestore.instance.collection("vocabularies").document(vocabularyId)
-                .collection("WORDS").document(id).delete()
+                .collection("words").document(id).delete()
                 .addOnSuccessListener { Log.i(TAG, "Successfully deleted word with id $id") }
                 .addOnFailureListener { e -> Log.w(TAG, "deleteWordWithId $id:failure", e.fillInStackTrace()) }
     }
