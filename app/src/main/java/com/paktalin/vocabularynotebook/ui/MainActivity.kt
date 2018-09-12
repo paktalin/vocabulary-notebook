@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.sort)
-            (recyclerView.adapter as VocabularyAdapter).sort()
+            (recyclerView.adapter as VocabularyAdapter).updateSortOrder()
         return super.onOptionsItemSelected(item)
     }
 

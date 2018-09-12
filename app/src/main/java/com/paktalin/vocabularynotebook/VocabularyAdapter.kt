@@ -17,7 +17,9 @@ import com.paktalin.vocabularynotebook.ui.MainActivity
 class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
+
     private var sortOrder:Int = 0
+    set(value) { field = value; sort() }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -31,7 +33,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val wordItem = vocabulary.words[position]
+        val wordItem = vocabulary.getAt(position)
         holder.tvWord.text = wordItem.pojo.word
         holder.tvTranslation.text = wordItem.pojo.translation
         holder.itemView.setOnClickListener { showPopupMenu(holder.itemView, position) }
@@ -46,7 +48,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
             if (it.itemId == R.id.option_delete) { deleteWord(position) }
-            if (it.itemId == R.id.option_edit) { editWord(v, vocabulary.words[position]) }
+            if (it.itemId == R.id.option_edit) { editWord(v, vocabulary.getAt(position)) }
             true
         }
         popup.show()
@@ -65,17 +67,17 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         this.sort()
     }
 
-    fun updateWord(updatedWordItem: WordItem) {
-        val updatedItemId = vocabulary.words.indexOf(updatedWordItem)
-        vocabulary.words[updatedItemId] = updatedWordItem
+    fun updateWord(updatedWord: WordItem) {
+        vocabulary.updateWord(updatedWord)
         this.sort()
     }
 
-    fun sort() {
-        // update SortOrder
+    fun updateSortOrder() {
         if (sortOrder == 2) sortOrder = 0
         else sortOrder++
+    }
 
+    private fun sort() {
         vocabulary.sort(sortOrder)
         this.notifyDataSetChanged()
     }

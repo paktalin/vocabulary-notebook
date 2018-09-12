@@ -10,9 +10,7 @@ class Vocabulary(words: MutableList<WordItem>) {
     }
 
     var pojo:Pojo
-
-    //todo set private
-    var words: MutableList<WordItem>
+    private var words: MutableList<WordItem>
 
     class Pojo(var title:String?) {
         init {
@@ -40,6 +38,15 @@ class Vocabulary(words: MutableList<WordItem>) {
 
     fun addWord(newWord:WordItem) {
         words.add(0, newWord)
+    }
+
+    fun updateWord(updatedWord:WordItem) {
+        val updatedItemIndex = words.indexOf(updatedWord)
+        words[updatedItemIndex] = updatedWord
+    }
+
+    fun getAt(position: Int):WordItem {
+        return words[position]
     }
 
     fun size():Int { return words.size }
