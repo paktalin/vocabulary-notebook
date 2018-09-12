@@ -13,25 +13,28 @@ import com.paktalin.vocabularynotebook.WordItem
 class AddWordFragment : WordFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mainActivity = activity as MainActivity
         return inflater.inflate(R.layout.fragment_new_word, container, false)
     }
 
     override fun saveToFirestore(wordPojo: WordItem.Pojo, vocabularyId: String) {
+        mainActivity.showProgressBar()
         ConfiguredFirestore.instance
                 .collection(vocabularies).document(vocabularyId)
                 .collection(words).add(wordPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully added a new word")
                     clearFields()
+                    mainActivity.hideProgressBar()
                     val wordItem = WordItem(wordPojo, it.id, vocabularyId)
                     updateRecycleView(wordItem) }
                 .addOnFailureListener {
                     Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
-                    Toast.makeText(activity, "Couldn't add the word", Toast.LENGTH_SHORT).show()}
+                    Toast.makeText(mainActivity, "Couldn't add the word", Toast.LENGTH_SHORT).show()}
     }
 
     override fun updateRecycleView(wordItem: WordItem) {
-        val vocabularyFragment = activity!!
+        val vocabularyFragment = mainActivity
                 .supportFragmentManager.findFragmentById(R.id.fragment_vocabulary) as VocabularyFragment
         vocabularyFragment.addWordItem(wordItem)
     }

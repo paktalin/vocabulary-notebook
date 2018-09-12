@@ -51,10 +51,10 @@ class MainActivity : AppCompatActivity() {
         val db = ConfiguredFirestore.instance
 
         val userDocument = db.collection("users").document(userId)
-        progress.visibility = View.VISIBLE
+        showProgressBar()
         userDocument.get()
                 .addOnSuccessListener { task ->
-                    progress.visibility = View.GONE
+                    hideProgressBar()
                     if (task.get("vocabularies") != null) {
                         val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
                         //todo represent specific vocabulary instead of the first one
@@ -76,6 +76,14 @@ class MainActivity : AppCompatActivity() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun showProgressBar() {
+        progress.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar() {
+        progress.visibility = View.GONE
     }
 
     override fun onPause() {

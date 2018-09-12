@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_new_word.*
 abstract class WordFragment : Fragment() {
     protected val vocabularies = "vocabularies"
     protected val words = "words"
+    protected lateinit var mainActivity: MainActivity
 
     private var wordEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
