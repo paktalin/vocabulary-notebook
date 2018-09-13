@@ -10,7 +10,7 @@ class Vocabulary(words: MutableList<WordItem>) {
     }
 
     var pojo:Pojo
-    private var words: MutableList<WordItem>
+    var words: MutableList<WordItem>
 
     class Pojo(var title:String?) {
         init {

@@ -11,6 +11,7 @@ import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
+import android.app.SearchManager
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
@@ -20,18 +21,16 @@ import android.widget.Toast
 import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
-import android.support.v4.view.MenuItemCompat.getActionView
-import android.content.Context.SEARCH_SERVICE
-import android.support.v4.content.ContextCompat.getSystemService
-import android.app.SearchManager
 import android.content.Context
-import android.widget.SearchView
+import android.support.v7.widget.SearchView
+import com.paktalin.vocabularynotebook.OnQueryTextListener
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var vocabularyId: String
     lateinit var vocabularyFragment: VocabularyFragment
+    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu!!.findItem(R.id.search).actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint = resources.getString(R.string.search_hint)
+        searchView = menu!!.findItem(R.id.search).actionView as SearchView
         return true
     }
 
@@ -94,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                         vocabularyFragment.arguments = arguments
                         supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment)
                                 .commitNowAllowingStateLoss()
+                        searchView.setOnQueryTextListener(OnQueryTextListener(recyclerView))
                     } else {
                         Log.w(TAG, "There's no collection \"vocabularies\"")
                         showToastNoWords() }

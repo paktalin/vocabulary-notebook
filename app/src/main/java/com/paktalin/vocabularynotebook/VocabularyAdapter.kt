@@ -15,12 +15,18 @@ import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import kotlinx.android.synthetic.main.word_item.view.*
 
-class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
     private var sortOrder:Int = 0
     set(value) { field = value; sort() }
+
+    private var wordsCopy:MutableList<WordItem> = mutableListOf()
+
+    init {
+        wordsCopy.addAll(vocabulary.words)
+    }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -98,10 +104,39 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val activity
         (activity as MainActivity).supportFragmentManager.beginTransaction().add(container.id, editWordFragment).commit()
     }
 
+    fun replaceAll(words: List<WordItem>) {
+        //vocabulary.words.beginBatchedUpdates()
+        for (i in vocabulary.words.size - 1 downTo 0) {
+            val model = vocabulary.words[i]
+            if (!words.contains(model)) {
+                vocabulary.words.remove(model)
+            }
+        }
+        vocabulary.words.addAll(words)
+        //vocabulary.words.endBatchedUpdates()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvWord: TextView = itemView.word
         val tvTranslation: TextView = itemView.translation
         val layout: LinearLayout = itemView.layout
+    }
+
+    fun filter(query: String) {
+        var query = query
+        vocabulary.words.clear()
+        if (query.isEmpty()) {
+            vocabulary.words.addAll(wordsCopy)
+        } else {
+            query = query.toLowerCase()
+            for (wordCopy in wordsCopy) {
+                if (wordCopy.pojo.word.toLowerCase().contains(query) ||
+                        wordCopy.pojo.translation.toLowerCase().contains(query)) {
+                    vocabulary.words.add(wordCopy)
+                }
+            }
+        }
+        notifyDataSetChanged()
     }
 
     companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
