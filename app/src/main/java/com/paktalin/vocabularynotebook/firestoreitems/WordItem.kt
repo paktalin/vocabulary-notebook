@@ -25,5 +25,10 @@ class WordItem(word: String, translation: String, time: Date?, var id: String, p
                 .addOnFailureListener { e -> Log.w(TAG, "deleteWordWithId $id:failure", e.fillInStackTrace()) }
     }
 
+    fun contains(string:String):Boolean {
+        return pojo.word.toLowerCase().contains(string) ||
+                pojo.translation.toLowerCase().contains(string)
+    }
+
     companion object { private val TAG = "VN/" + WordItem::class.java.simpleName }
 }

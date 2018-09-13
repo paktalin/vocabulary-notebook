@@ -1,7 +1,6 @@
 package com.paktalin.vocabularynotebook
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.PopupMenu
@@ -15,22 +14,25 @@ import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import kotlinx.android.synthetic.main.word_item.view.*
 
-class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activity: Activity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActivity: MainActivity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
-    private var sortOrder:Int = 0
-    set(value) { field = value; sort() }
+    private var sortOrder: Int = 0
+        set(value) {
+            field = value; sort()
+        }
 
-    private var wordsCopy:MutableList<WordItem> = mutableListOf()
+    private var wordsCopy: MutableList<WordItem> = mutableListOf() // stores all the words loaded from the db
 
     init {
-        wordsCopy.addAll(vocabulary.words)
+        wordsCopy.addAll(vocabulary.get())
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         this.recyclerView = recyclerView
+        mainActivity.searchView.setOnQueryTextListener(OnQueryTextListener(this@VocabularyAdapter))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,10 +49,12 @@ class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activit
         //todo set click listener to menu
     }
 
-    override fun getItemCount(): Int { return vocabulary.size() }
+    override fun getItemCount(): Int {
+        return vocabulary.size()
+    }
 
     private fun showPopupMenu(v: View, position: Int) {
-        val popup = PopupMenu(activity, v)
+        val popup = PopupMenu(mainActivity, v)
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
@@ -90,7 +94,7 @@ class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activit
     }
 
     @SuppressLint("ResourceType")
-    private fun editWord(container:View, wordItem: WordItem) {
+    private fun editWord(container: View, wordItem: WordItem) {
         //set container id
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             container.id = View.generateViewId()
@@ -101,19 +105,7 @@ class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activit
         val arguments = Bundle()
         arguments.putSerializable("wordItem", wordItem)
         editWordFragment.arguments = arguments
-        (activity as MainActivity).supportFragmentManager.beginTransaction().add(container.id, editWordFragment).commit()
-    }
-
-    fun replaceAll(words: List<WordItem>) {
-        //vocabulary.words.beginBatchedUpdates()
-        for (i in vocabulary.words.size - 1 downTo 0) {
-            val model = vocabulary.words[i]
-            if (!words.contains(model)) {
-                vocabulary.words.remove(model)
-            }
-        }
-        vocabulary.words.addAll(words)
-        //vocabulary.words.endBatchedUpdates()
+        mainActivity.supportFragmentManager.beginTransaction().add(container.id, editWordFragment).commit()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -123,21 +115,15 @@ class VocabularyAdapter(internal val vocabulary: Vocabulary, private val activit
     }
 
     fun filter(query: String) {
-        var query = query
-        vocabulary.words.clear()
-        if (query.isEmpty()) {
-            vocabulary.words.addAll(wordsCopy)
-        } else {
-            query = query.toLowerCase()
-            for (wordCopy in wordsCopy) {
-                if (wordCopy.pojo.word.toLowerCase().contains(query) ||
-                        wordCopy.pojo.translation.toLowerCase().contains(query)) {
-                    vocabulary.words.add(wordCopy)
-                }
-            }
-        }
+        vocabulary.clear()
+        if (query.isEmpty())
+            vocabulary.addWords(wordsCopy)
+        else
+            vocabulary.addWordsFittingQuery(wordsCopy, query.toLowerCase())
         notifyDataSetChanged()
     }
 
-    companion object { private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName }
+    companion object {
+        private val TAG = "VN/" + VocabularyAdapter::class.java.simpleName
+    }
 }

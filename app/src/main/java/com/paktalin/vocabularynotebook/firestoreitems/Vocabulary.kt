@@ -10,7 +10,7 @@ class Vocabulary(words: MutableList<WordItem>) {
     }
 
     var pojo:Pojo
-    var words: MutableList<WordItem>
+    private var words: MutableList<WordItem>
 
     class Pojo(var title:String?) {
         init {
@@ -40,6 +40,17 @@ class Vocabulary(words: MutableList<WordItem>) {
         words.add(0, newWord)
     }
 
+    fun addWords(newWords:MutableList<WordItem>) {
+        words.addAll(newWords)
+    }
+
+    fun addWordsFittingQuery(newWords:MutableList<WordItem>, query:String) {
+        for (newWord in newWords) {
+            if (newWord.contains(query))
+                this.addWord(newWord)
+        }
+    }
+
     fun updateWord(updatedWord:WordItem) {
         val updatedItemIndex = words.indexOf(updatedWord)
         words[updatedItemIndex] = updatedWord
@@ -49,7 +60,11 @@ class Vocabulary(words: MutableList<WordItem>) {
         return words[position]
     }
 
+    fun get():MutableList<WordItem> { return words }
+
     fun size():Int { return words.size }
+
+    fun clear() { words.clear() }
 
     private fun sortByTime() {
         words.sortWith(Comparator { item1, item2 ->

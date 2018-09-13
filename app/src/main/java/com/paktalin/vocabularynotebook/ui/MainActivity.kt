@@ -11,7 +11,6 @@ import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
-import android.app.SearchManager
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
@@ -21,9 +20,7 @@ import android.widget.Toast
 import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
-import android.content.Context
 import android.support.v7.widget.SearchView
-import com.paktalin.vocabularynotebook.OnQueryTextListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -90,7 +87,6 @@ class MainActivity : AppCompatActivity() {
                         vocabularyFragment.arguments = arguments
                         supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment)
                                 .commitNowAllowingStateLoss()
-                        searchView.setOnQueryTextListener(OnQueryTextListener(recyclerView))
                     } else {
                         Log.w(TAG, "There's no collection \"vocabularies\"")
                         showToastNoWords() }

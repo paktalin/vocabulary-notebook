@@ -25,6 +25,7 @@ class VocabularyFragment : Fragment() {
     }
 
     private val db = ConfiguredFirestore.instance
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_vocabulary, container, false)
@@ -32,14 +33,15 @@ class VocabularyFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mainActivity = activity as MainActivity
         setEmptyAdapter()
         retrieveWordsData(arguments!!["vocabularyId"] as String)
     }
 
     private fun setEmptyAdapter() {
         val emptyList: MutableList<WordItem> = mutableListOf()
-        recyclerView.adapter = VocabularyAdapter(Vocabulary(emptyList), activity!!)
-        val mLayoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = VocabularyAdapter(Vocabulary(emptyList), mainActivity)
+        val mLayoutManager = LinearLayoutManager(mainActivity)
         recyclerView.layoutManager = mLayoutManager
     }
 
@@ -52,7 +54,7 @@ class VocabularyFragment : Fragment() {
                         setVocabularyAdapter(it.documents, vocabularyId)
                 else {
                         Log.i(TAG, "There are no documents in collection \"words\"")
-                        (activity as MainActivity).showToastNoWords()
+                        mainActivity.showToastNoWords()
                     }}
     }
 
@@ -67,7 +69,7 @@ class VocabularyFragment : Fragment() {
         }
 
         val vocabulary = Vocabulary(wordItems)
-        val adapter = VocabularyAdapter(vocabulary, activity!!)
+        val adapter = VocabularyAdapter(vocabulary, mainActivity)
         recyclerView.adapter = adapter
     }
 
