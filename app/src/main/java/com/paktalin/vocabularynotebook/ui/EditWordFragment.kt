@@ -76,7 +76,7 @@ class EditWordFragment : WordFragment() {
     }
 
     override fun updateRecycleView(wordItem: WordItem) {
-        mainActivity.vocabularyFragment.updateWordItem(wordItem)
+        mainActivity.vocabularyFragment.updateWord(wordItem)
     }
 
     companion object {

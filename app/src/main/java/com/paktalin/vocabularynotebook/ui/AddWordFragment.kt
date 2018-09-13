@@ -24,7 +24,7 @@ class AddWordFragment : WordFragment() {
     }
 
     override fun updateRecycleView(wordItem: WordItem) {
-        mainActivity.vocabularyFragment.addWordItem(wordItem)
+        mainActivity.vocabularyFragment.addWord(wordItem)
     }
 
     companion object { private val TAG = "VN/" + AddWordFragment::class.java.simpleName }

@@ -36,11 +36,6 @@ class VocabularyFragment : Fragment() {
         retrieveWordsData(arguments!!["vocabularyId"] as String)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        FirebaseAuth.getInstance().signOut()
-    }
-
     private fun setEmptyAdapter() {
         val emptyList: MutableList<WordItem> = mutableListOf()
         recyclerView.adapter = VocabularyAdapter(Vocabulary(emptyList), activity!!)
@@ -76,11 +71,8 @@ class VocabularyFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    fun addWordItem(newWord: WordItem) {
-        (recyclerView.adapter as VocabularyAdapter).addWord(newWord)
-    }
+    fun addWord(newWord: WordItem) { (recyclerView.adapter as VocabularyAdapter).addWord(newWord) }
 
-    fun updateWordItem(updatedWord: WordItem) {
-        (recyclerView.adapter as VocabularyAdapter).updateWord(updatedWord)
-    }
+    fun updateWord(updatedWord: WordItem) {
+        (recyclerView.adapter as VocabularyAdapter).updateWord(updatedWord) }
 }

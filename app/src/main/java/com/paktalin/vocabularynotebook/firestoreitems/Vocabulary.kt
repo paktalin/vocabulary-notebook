@@ -51,7 +51,6 @@ class Vocabulary(words: MutableList<WordItem>) {
 
     fun size():Int { return words.size }
 
-    //region Private methods
     private fun sortByTime() {
         words.sortWith(Comparator { item1, item2 ->
             -item1.pojo.time!!.compareTo(item2.pojo.time) })
@@ -64,5 +63,4 @@ class Vocabulary(words: MutableList<WordItem>) {
         words.sortWith(Comparator { item1, item2 ->
             item1.pojo.translation.compareTo(item2.pojo.translation) })
     }
-    //endregion
 }
