@@ -7,6 +7,9 @@ class Vocabulary(words: MutableList<WordItem>) {
         private const val SORT_BY_TIME = 0
         private const val SORT_BY_WORD = 1
         private const val SORT_BY_TRANSLATION = 2
+
+        const val WORDS = "words"
+        const val VOCABULARIES = "vocabularies"
     }
 
     var pojo:Pojo

@@ -2,6 +2,8 @@ package com.paktalin.vocabularynotebook.firestoreitems
 
 import android.util.Log
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
 
 import java.io.Serializable
 import java.util.Date
@@ -19,8 +21,8 @@ class WordItem(word: String, translation: String, time: Date?, var id: String, p
             : this(pojo.word, pojo.translation, pojo.time, id, vocabularyId)
 
     fun delete() {
-        ConfiguredFirestore.instance.collection("vocabularies").document(vocabularyId)
-                .collection("words").document(id).delete()
+        ConfiguredFirestore.instance.collection(VOCABULARIES).document(vocabularyId)
+                .collection(WORDS).document(id).delete()
                 .addOnSuccessListener { Log.i(TAG, "Successfully deleted word with id $id") }
                 .addOnFailureListener { e -> Log.w(TAG, "deleteWordWithId $id:failure", e.fillInStackTrace()) }
     }

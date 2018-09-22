@@ -6,6 +6,7 @@ import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.ui.LogInActivity
 import com.paktalin.vocabularynotebook.firestoreitems.UserPojo
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 import java.util.*
 
 class UserManager {
@@ -23,7 +24,7 @@ class UserManager {
             val db = ConfiguredFirestore.instance
             val user = UserPojo(newUser.email)
 
-            db.collection("vocabularies").add(Vocabulary.Pojo(null))
+            db.collection(VOCABULARIES).add(Vocabulary.Pojo(null))
                     .addOnSuccessListener { firstVocabularyRef ->
                         Log.d(TAG, "VocabularyPojo successfully created: " + firstVocabularyRef.path)
                         user.vocabularies = Collections.singletonList(firstVocabularyRef)

@@ -13,17 +13,12 @@ import kotlinx.android.synthetic.main.fragment_new_word.*
 import kotlinx.android.synthetic.main.notebook_sheet.*
 
 abstract class WordFragment : Fragment() {
-
-    companion object {
-        const val VOCABULARIES = "vocabularies"
-        const val WORDS = "words"
-    }
     protected lateinit var mainActivity: MainActivity
 
-    private var wordEmpty: Boolean = true
+    internal var wordEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
 
-    private var translationEmpty: Boolean = true
+    internal var translationEmpty: Boolean = true
         set(value) { field = value; updateButtons() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,15 +38,9 @@ abstract class WordFragment : Fragment() {
         btnClear.setOnClickListener { clearFields() }
     }
 
-    private fun updateButtons() {
-        if (!wordEmpty || !translationEmpty)
-            showClearButton()
-        if (!wordEmpty && !translationEmpty)
-            showSubmitButton()
-        if (wordEmpty || translationEmpty)
-            hideSubmitButton()
-        if (wordEmpty && translationEmpty)
-            hideClearButton()
+    open fun updateButtons() {
+        if (!wordEmpty && !translationEmpty) showSubmitButton()
+        if (wordEmpty || translationEmpty) hideSubmitButton()
     }
 
     private fun textWatcher(setEmpty: () -> Unit): TextWatcher {
@@ -67,10 +56,6 @@ abstract class WordFragment : Fragment() {
 
     protected fun hideSubmitButton() {
         mainActivity.btnSubmitLayout.visibility = View.GONE }
-
-    private fun hideClearButton() { btnClear.visibility = View.INVISIBLE }
-
-    private fun showClearButton() { btnClear.visibility = View.VISIBLE }
 
     fun submitWord() {
         mainActivity.hideKeyboardNotFromActivity(mainActivity)

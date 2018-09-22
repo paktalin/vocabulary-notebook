@@ -14,14 +14,14 @@ import com.google.firebase.firestore.Query
 import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 
 class VocabularyFragment : Fragment() {
     companion object {
         private val TAG = "VN/" + VocabularyFragment::class.simpleName
-        private const val VOCABULARIES = "vocabularies"
-        private const val WORDS = "words"
     }
 
     private val db = ConfiguredFirestore.instance

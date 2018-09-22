@@ -21,6 +21,7 @@ import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 import android.support.v7.widget.SearchView
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,9 +76,9 @@ class MainActivity : AppCompatActivity() {
                 .addOnSuccessListener { task ->
                     hideProgressBar()
                     //todo move Firestore logic and collections names to a separate class
-                    if (task.get("vocabularies") != null) {
-                        val vocabularies: List<DocumentReference> = task.get("vocabularies") as List<DocumentReference>
-                        val vocabulary = db.collection("vocabularies").document(vocabularies[0].id)
+                    if (task.get(VOCABULARIES) != null) {
+                        val vocabularies: List<DocumentReference> = task.get(VOCABULARIES) as List<DocumentReference>
+                        val vocabulary = db.collection(VOCABULARIES).document(vocabularies[0].id)
                         vocabularyId = vocabulary.id
 
                         // start VocabularyFragment
