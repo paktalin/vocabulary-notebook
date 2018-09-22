@@ -2,7 +2,8 @@ package com.paktalin.vocabularynotebook.ui
 
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import com.paktalin.vocabularynotebook.R
+import com.paktalin.vocabularynotebook.Utils
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
@@ -24,7 +25,8 @@ class AddWordFragment : WordFragment() {
                     updateRecycleView(wordItem) }
                 .addOnFailureListener {
                     Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
-                    Toast.makeText(mainActivity, "Couldn't add the word", Toast.LENGTH_SHORT).show()}
+                    Utils.shortToast(mainActivity, getString(R.string.toast_new_word_fail))
+                }
     }
 
     override fun updateRecycleView(wordItem: WordItem) {

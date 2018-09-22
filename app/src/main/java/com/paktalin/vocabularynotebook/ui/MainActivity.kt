@@ -16,11 +16,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 import android.support.v7.widget.SearchView
+import com.paktalin.vocabularynotebook.Utils
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 
 
@@ -110,8 +110,7 @@ class MainActivity : AppCompatActivity() {
     fun hideProgressBar() { progress.visibility = View.GONE }
 
     fun showToastNoWords() {
-        Toast.makeText(this@MainActivity,
-                "You don't have any words yet. Add your fist one!", Toast.LENGTH_SHORT).show()
+        Utils.shortToast(this, getString(R.string.toast_no_words))
     }
 
     fun removeFragment(fragment: Fragment) {

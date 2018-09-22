@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_log_in.*
@@ -46,8 +45,7 @@ class LogInActivity : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         Log.w(TAG, "signInWithEmail:failure", it)
-                        Toast.makeText(this@LogInActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
+                        Utils.shortToast(this@LogInActivity, getString(R.string.toast_auth_failed))
                     }
         }
     }
@@ -68,7 +66,7 @@ class LogInActivity : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         Log.d(TAG, "createUserWithEmail:failure", it.fillInStackTrace())
-                        Toast.makeText(this@LogInActivity, it.message, Toast.LENGTH_SHORT).show()
+                        Utils.shortToast(this@LogInActivity, it.message!!)
                     }
         }
     }

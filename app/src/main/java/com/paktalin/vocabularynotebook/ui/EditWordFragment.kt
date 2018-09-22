@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.paktalin.vocabularynotebook.R
+import com.paktalin.vocabularynotebook.Utils
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
+import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
 import kotlinx.android.synthetic.main.fragment_new_word.*
 import kotlinx.android.synthetic.main.notebook_sheet.*
 import kotlinx.android.synthetic.main.word_item.view.*
@@ -64,7 +68,7 @@ class EditWordFragment : WordFragment() {
                 }
                 .addOnFailureListener {
                     Log.w(TAG, "updateExistingWord:failure", it.fillInStackTrace())
-                    Toast.makeText(mainActivity, "Couldn't update the word", Toast.LENGTH_SHORT).show()
+                    Utils.shortToast(mainActivity, getString(R.string.toast_update_word_failed))
                     stop()
                 }
     }

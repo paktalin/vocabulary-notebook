@@ -18,4 +18,7 @@
     
     <!--Toast messages-->
     <string name="toast_no_words">You don\'t have any words yet. Add your fist one!</string>
+    <string name="toast_auth_failed">Authentication failed</string>
+    <string name="toast_new_word_fail">Couldn\'t add the word</string>
+    <string name="toast_update_word_failed">Couldn\'t update the word</string>
 </resources>
