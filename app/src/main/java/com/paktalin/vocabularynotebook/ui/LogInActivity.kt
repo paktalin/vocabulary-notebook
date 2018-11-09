@@ -11,7 +11,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_log_in.*
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.UserManager
-import com.paktalin.vocabularynotebook.Utils
+import com.paktalin.vocabularynotebook.fieldsNotEmpty
+import com.paktalin.vocabularynotebook.shortToast
 
 class LogInActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
@@ -35,7 +36,7 @@ class LogInActivity : AppCompatActivity() {
         val email = etEmail!!.text.toString()
         val password = etPassword!!.text.toString()
 
-        if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
+        if (fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
             showProgressBar()
             mAuth!!.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { hideProgressBar() }
@@ -45,7 +46,7 @@ class LogInActivity : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         Log.w(TAG, "signInWithEmail:failure", it)
-                        Utils.shortToast(this@LogInActivity, getString(R.string.toast_auth_failed))
+                        shortToast(this@LogInActivity, getString(R.string.toast_auth_failed))
                     }
         }
     }
@@ -54,7 +55,7 @@ class LogInActivity : AppCompatActivity() {
         val email = etEmail!!.text.toString()
         val password = etPassword!!.text.toString()
 
-        if (Utils.fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
+        if (fieldsNotEmpty(email, password, "Please, enter email and password", this)) {
             //todo check if the password is good
             // todo verify email
             showProgressBar()
@@ -66,7 +67,7 @@ class LogInActivity : AppCompatActivity() {
                     }
                     .addOnFailureListener {
                         Log.d(TAG, "createUserWithEmail:failure", it.fillInStackTrace())
-                        Utils.shortToast(this@LogInActivity, it.message!!)
+                        shortToast(this@LogInActivity, it.message!!)
                     }
         }
     }

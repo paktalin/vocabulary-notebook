@@ -3,11 +3,11 @@ package com.paktalin.vocabularynotebook.ui
 import android.util.Log
 import android.view.View
 import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.Utils
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
+import com.paktalin.vocabularynotebook.shortToast
 import kotlinx.android.synthetic.main.fragment_new_word.*
 
 class AddWordFragment : WordFragment() {
@@ -20,12 +20,12 @@ class AddWordFragment : WordFragment() {
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully added a new word")
                     clearFields()
-                    mainActivity.hideProgressBar()
+                    mainActivity.removeProgressBar()
                     val wordItem = WordItem(wordPojo, it.id, vocabularyId)
                     updateRecycleView(wordItem) }
                 .addOnFailureListener {
                     Log.w(TAG, "addNewWordToDb:failure", it.fillInStackTrace())
-                    Utils.shortToast(mainActivity, getString(R.string.toast_new_word_fail))
+                    shortToast(mainActivity, getString(R.string.toast_new_word_fail))
                 }
     }
 

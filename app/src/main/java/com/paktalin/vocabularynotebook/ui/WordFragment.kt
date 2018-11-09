@@ -63,7 +63,7 @@ abstract class WordFragment : Fragment() {
         val word = word.text.toString()
         val translation = translation.text.toString()
         val vocabularyId = mainActivity.vocabularyId
-        mainActivity.showProgressBar()
+        mainActivity.addProgressBar()
         saveToFirestore(word, translation, vocabularyId)
         return
     }

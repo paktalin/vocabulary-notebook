@@ -7,7 +7,6 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 
-import com.paktalin.vocabularynotebook.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
@@ -16,11 +15,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.paktalin.vocabularynotebook.VocabularyAdapter
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import kotlinx.android.synthetic.main.fragment_vocabulary.*
 import android.support.v7.widget.SearchView
-import com.paktalin.vocabularynotebook.Utils
+import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 
 
@@ -71,10 +69,10 @@ class MainActivity : AppCompatActivity() {
         val db = ConfiguredFirestore.instance
 
         val userDocument = db.collection("users").document(userId)
-        showProgressBar()
+        addProgressBar()
         userDocument.get()
                 .addOnSuccessListener { task ->
-                    hideProgressBar()
+                    removeProgressBar()
                     //todo move Firestore logic and collections names to a separate class
                     if (task.get(VOCABULARIES) != null) {
                         val vocabularies: List<DocumentReference> = task.get(VOCABULARIES) as List<DocumentReference>
@@ -105,12 +103,16 @@ class MainActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun showProgressBar() { progress.visibility = View.VISIBLE }
+    fun addProgressBar() {
+        addProgressBar(supportFragmentManager, R.id.frameLayout)
+    }
 
-    fun hideProgressBar() { progress.visibility = View.GONE }
+    fun removeProgressBar() {
+        removeProgressBar(supportFragmentManager)
+    }
 
     fun showToastNoWords() {
-        Utils.shortToast(this, getString(R.string.toast_no_words))
+        shortToast(this, getString(R.string.toast_no_words))
     }
 
     fun removeFragment(fragment: Fragment) {
