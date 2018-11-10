@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.text.TextUtils
 import android.widget.Toast
-import com.paktalin.vocabularynotebook.ui.ProgressFragment
+import com.paktalin.vocabularynotebook.ui.fragments.ProgressFragment
 
 val progressFragment: Fragment = ProgressFragment()
 

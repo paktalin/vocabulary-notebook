@@ -10,8 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
-import com.paktalin.vocabularynotebook.ui.EditWordFragment
-import com.paktalin.vocabularynotebook.ui.MainActivity
+import com.paktalin.vocabularynotebook.ui.fragments.EditWordFragment
+import com.paktalin.vocabularynotebook.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.word_item.view.*
 
 class VocabularyAdapter(private val displayedVocabulary: Vocabulary, private val mainActivity: MainActivity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {

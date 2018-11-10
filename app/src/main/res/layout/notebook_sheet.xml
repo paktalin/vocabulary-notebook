@@ -26,7 +26,7 @@
 
         <fragment
             android:id="@+id/fragmentAddWord"
-            android:name="com.paktalin.vocabularynotebook.ui.AddWordFragment"
+            android:name="com.paktalin.vocabularynotebook.ui.fragments.AddWordFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </FrameLayout>
