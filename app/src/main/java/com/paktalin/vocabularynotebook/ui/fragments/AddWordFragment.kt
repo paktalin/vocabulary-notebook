@@ -8,7 +8,7 @@ import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCAB
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.shortToast
-import kotlinx.android.synthetic.main.fragment_new_word.*
+import kotlinx.android.synthetic.main.fragment_editable_word.*
 
 class AddWordFragment : WordFragment() {
 

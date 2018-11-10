@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
-import com.paktalin.vocabularynotebook.hide
-import com.paktalin.vocabularynotebook.show
 import com.paktalin.vocabularynotebook.ui.activities.MainActivity
-import kotlinx.android.synthetic.main.fragment_new_word.*
+import kotlinx.android.synthetic.main.fragment_editable_word.*
+import kotlinx.android.synthetic.main.content_main.*
 
 abstract class WordFragment : Fragment() {
     protected lateinit var mainActivity: MainActivity
@@ -24,14 +23,13 @@ abstract class WordFragment : Fragment() {
         set(value) { field = value; updateButtons() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_new_word, container, false)
+        return inflater.inflate(R.layout.fragment_editable_word, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainActivity = activity as MainActivity
-
-        btnSubmit.setOnClickListener { submitWord() }
+        mainActivity.btnSubmit.setOnClickListener { submitWord() }
         word.addTextChangedListener(textWatcher {
             wordEmpty = word.text.isEmpty() })
 
@@ -42,8 +40,8 @@ abstract class WordFragment : Fragment() {
     }
 
     open fun updateButtons() {
-        if (!wordEmpty && !translationEmpty) show(btnSubmit)
-        if (wordEmpty || translationEmpty) hide(btnSubmit)
+        if (!wordEmpty && !translationEmpty) showSubmitButton()
+        if (wordEmpty || translationEmpty) hideSubmitButton()
     }
 
     private fun textWatcher(setEmpty: () -> Unit): TextWatcher {
@@ -54,7 +52,13 @@ abstract class WordFragment : Fragment() {
         }
     }
 
-    private fun submitWord() {
+    private fun showSubmitButton() {
+        mainActivity.btnSubmitLayout.visibility = View.VISIBLE }
+
+    protected fun hideSubmitButton() {
+        mainActivity.btnSubmitLayout.visibility = View.GONE }
+
+    fun submitWord() {
         mainActivity.hideKeyboardNotFromActivity(mainActivity)
 
         val word = word.text.toString()
