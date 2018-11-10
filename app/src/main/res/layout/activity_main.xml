@@ -9,17 +9,11 @@
     android:background="#66330E">
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/container_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/notebook_sheet" />
-
-        <include
-            android:id="@+id/progress"
-            layout="@layout/progress"
-            android:visibility="gone" />
-
     </FrameLayout>
 
     <android.support.design.widget.NavigationView

@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addProgressBar() {
-        addProgressBar(supportFragmentManager, R.id.frameLayout)
+        addProgressBar(supportFragmentManager, R.id.container_main)
     }
 
     fun removeProgressBar() {

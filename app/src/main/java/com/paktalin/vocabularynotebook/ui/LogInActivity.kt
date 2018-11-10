@@ -5,14 +5,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 
 import com.google.firebase.auth.FirebaseAuth
+import com.paktalin.vocabularynotebook.*
 import kotlinx.android.synthetic.main.activity_log_in.*
-import com.paktalin.vocabularynotebook.R
-import com.paktalin.vocabularynotebook.UserManager
-import com.paktalin.vocabularynotebook.fieldsNotEmpty
-import com.paktalin.vocabularynotebook.shortToast
 
 class LogInActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
@@ -78,9 +74,9 @@ class LogInActivity : AppCompatActivity() {
         startActivity(userActivityIntent)
     }
 
-    private fun showProgressBar() { progress.visibility = View.VISIBLE }
+    private fun showProgressBar() { addProgressBar(supportFragmentManager, R.id.container_login) }
 
-    private fun hideProgressBar() { progress.visibility = View.GONE }
+    private fun hideProgressBar() { removeProgressBar(supportFragmentManager) }
 
     @SuppressLint("SetTextI18n")
     private fun createRandomUser() {
