@@ -12,6 +12,7 @@ import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
+import com.paktalin.vocabularynotebook.removeFragment
 import com.paktalin.vocabularynotebook.shortToast
 import kotlinx.android.synthetic.main.fragment_new_word.*
 import kotlinx.android.synthetic.main.notebook_sheet.*
@@ -74,8 +75,8 @@ class EditWordFragment : WordFragment() {
 
     private fun stop() {
         // set onClickListener from AddWordFragment
-        mainActivity.btnSubmit.setOnClickListener { (mainActivity.fragmentNewWord as AddWordFragment).submitWord() }
-        mainActivity.removeFragment(this)
+        mainActivity.btnSubmit.setOnClickListener { (mainActivity.fragmentAddWord as AddWordFragment).submitWord() }
+        removeFragment(mainActivity.supportFragmentManager, this)
     }
 
     override fun updateRecycleView(wordItem: WordItem) {

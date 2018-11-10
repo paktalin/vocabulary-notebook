@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.WindowManager
 import android.app.Activity
-import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_vocabulary.*
 import android.support.v7.widget.SearchView
 import com.paktalin.vocabularynotebook.*
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -83,9 +81,7 @@ class MainActivity : AppCompatActivity() {
                         vocabularyFragment = VocabularyFragment()
                         val arguments = Bundle()
                         arguments.putString("vocabularyId", vocabularyId)
-                        vocabularyFragment.arguments = arguments
-                        supportFragmentManager.beginTransaction().add(R.id.fragment_container, vocabularyFragment)
-                                .commitNowAllowingStateLoss()
+                        addFragment(supportFragmentManager, vocabularyFragment, R.id.container_vocabulary, arguments)
                     } else {
                         Log.w(TAG, "There's no collection \"vocabularies\"")
                         showToastNoWords() }
@@ -113,10 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     fun showToastNoWords() {
         shortToast(this, getString(R.string.toast_no_words))
-    }
-
-    fun removeFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss()
     }
 
     override fun onPause() {

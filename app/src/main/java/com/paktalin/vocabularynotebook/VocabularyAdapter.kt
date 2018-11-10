@@ -14,7 +14,7 @@ import com.paktalin.vocabularynotebook.ui.EditWordFragment
 import com.paktalin.vocabularynotebook.ui.MainActivity
 import kotlinx.android.synthetic.main.word_item.view.*
 
-class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActivity: MainActivity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
+class VocabularyAdapter(private val displayedVocabulary: Vocabulary, private val mainActivity: MainActivity) : RecyclerView.Adapter<VocabularyAdapter.ViewHolder>() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -23,10 +23,10 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
             field = value; sort()
         }
 
-    private var wordsCopy: MutableList<WordItem> = mutableListOf() // stores all the words loaded from the db
+    private var vocabularyCopy: MutableList<WordItem> = mutableListOf() // stores all the words loaded from the db
 
     init {
-        wordsCopy.addAll(vocabulary.get())
+        vocabularyCopy.addAll(displayedVocabulary.get())
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -42,7 +42,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val wordItem = vocabulary.getAt(position)
+        val wordItem = displayedVocabulary.getAt(position)
         holder.tvWord.text = wordItem.pojo.word
         holder.tvTranslation.text = wordItem.pojo.translation
         holder.itemView.setOnClickListener { showPopupMenu(holder.itemView, position) }
@@ -50,7 +50,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
     }
 
     override fun getItemCount(): Int {
-        return vocabulary.size()
+        return displayedVocabulary.size()
     }
 
     private fun showPopupMenu(v: View, position: Int) {
@@ -59,27 +59,27 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
         inflater.inflate(R.menu.word_item_menu, popup.menu)
         popup.setOnMenuItemClickListener {
             if (it.itemId == R.id.option_delete) { deleteWord(position) }
-            if (it.itemId == R.id.option_edit) { editWord(v, vocabulary.getAt(position)) }
+            if (it.itemId == R.id.option_edit) { editWord(v, displayedVocabulary.getAt(position)) }
             true
         }
         popup.show()
     }
 
     private fun deleteWord(position: Int) {
-        vocabulary.deleteWord(position)
+        displayedVocabulary.deleteWord(position)
         // update recyclerView
         recyclerView.removeViewAt(position)
         this.notifyItemRemoved(position)
-        this.notifyItemRangeChanged(position, vocabulary.size())
+        this.notifyItemRangeChanged(position, displayedVocabulary.size())
     }
 
     fun addWord(newWord: WordItem) {
-        vocabulary.addWord(newWord)
+        displayedVocabulary.addWord(newWord)
         this.sort()
     }
 
     fun updateWord(updatedWord: WordItem) {
-        vocabulary.updateWord(updatedWord)
+        displayedVocabulary.updateWord(updatedWord)
         this.sort()
     }
 
@@ -89,7 +89,7 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
     }
 
     private fun sort() {
-        vocabulary.sort(sortOrder)
+        displayedVocabulary.sort(sortOrder)
         this.notifyDataSetChanged()
     }
 
@@ -101,11 +101,9 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
         } else container.id = 18071999
 
         // start EditWordFragment
-        val editWordFragment = EditWordFragment()
         val arguments = Bundle()
         arguments.putSerializable("wordItem", wordItem)
-        editWordFragment.arguments = arguments
-        mainActivity.supportFragmentManager.beginTransaction().add(container.id, editWordFragment).commit()
+        addFragment(mainActivity.supportFragmentManager, EditWordFragment(), container.id, arguments)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -115,11 +113,11 @@ class VocabularyAdapter(private val vocabulary: Vocabulary, private val mainActi
     }
 
     fun filter(query: String) {
-        vocabulary.clear()
+        displayedVocabulary.clear()
         if (query.isEmpty())
-            vocabulary.addWords(wordsCopy)
+            displayedVocabulary.addWords(vocabularyCopy)
         else
-            vocabulary.addWordsFittingQuery(wordsCopy, query.toLowerCase())
+            displayedVocabulary.addWordsFittingQuery(vocabularyCopy, query.toLowerCase())
         notifyDataSetChanged()
     }
 

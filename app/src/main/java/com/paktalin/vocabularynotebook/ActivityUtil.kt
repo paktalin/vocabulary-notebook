@@ -1,6 +1,7 @@
 package com.paktalin.vocabularynotebook
 
 import android.content.Context
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.text.TextUtils
@@ -9,7 +10,8 @@ import com.paktalin.vocabularynotebook.ui.ProgressFragment
 
 val progressFragment: Fragment = ProgressFragment()
 
-fun addFragment(fragmentManager: FragmentManager, fragment: Fragment, containerId: Int) {
+fun addFragment(fragmentManager: FragmentManager, fragment: Fragment, containerId: Int, arguments: Bundle?) {
+    fragment.arguments = arguments
     fragmentManager.beginTransaction().add(containerId, fragment).commitAllowingStateLoss()
 }
 
@@ -18,7 +20,7 @@ fun removeFragment(fragmentManager: FragmentManager, fragment: Fragment) {
 }
 
 fun addProgressBar(fragmentManager: FragmentManager, containerId: Int) {
-    addFragment(fragmentManager, progressFragment, containerId)
+    addFragment(fragmentManager, progressFragment, containerId, null)
 }
 
 fun removeProgressBar(fragmentManager: FragmentManager) {

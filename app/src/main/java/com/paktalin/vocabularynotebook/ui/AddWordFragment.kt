@@ -33,7 +33,6 @@ class AddWordFragment : WordFragment() {
         mainActivity.vocabularyFragment.addWord(wordItem)
     }
 
-
     override fun updateButtons() {
         super.updateButtons()
         if (!wordEmpty || !translationEmpty) showClearButton()
