@@ -12,11 +12,11 @@ import com.paktalin.vocabularynotebook.firestoreitems.WordItem
 import com.paktalin.vocabularynotebook.appsetup.ConfiguredFirestore
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.VOCABULARIES
 import com.paktalin.vocabularynotebook.firestoreitems.Vocabulary.Companion.WORDS
+import com.paktalin.vocabularynotebook.hide
 import com.paktalin.vocabularynotebook.removeFragment
 import com.paktalin.vocabularynotebook.shortToast
 import com.paktalin.vocabularynotebook.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_new_word.*
-import kotlinx.android.synthetic.main.notebook_sheet.*
 import kotlinx.android.synthetic.main.word_item.view.*
 
 class EditWordFragment : WordFragment() {
@@ -61,7 +61,7 @@ class EditWordFragment : WordFragment() {
                 .collection(WORDS).document(wordItem.id).set(wordPojo)
                 .addOnSuccessListener {
                     Log.i(TAG, "Successfully updated the word")
-                    hideSubmitButton()
+                    hide(btnSubmit)
                     mainActivity.removeProgressBar()
                     wordItem.pojo = wordPojo
                     updateRecycleView(wordItem)
@@ -76,7 +76,7 @@ class EditWordFragment : WordFragment() {
 
     private fun stop() {
         // set onClickListener from AddWordFragment
-        mainActivity.btnSubmit.setOnClickListener { (mainActivity.fragmentAddWord as AddWordFragment).submitWord() }
+        //mainActivity.btnSubmit.setOnClickListener { (mainActivity.fragmentNewWord as AddWordFragment).submitWord() }
         removeFragment(mainActivity.supportFragmentManager, this)
     }
 

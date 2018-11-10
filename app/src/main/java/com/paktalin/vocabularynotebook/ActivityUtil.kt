@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import com.paktalin.vocabularynotebook.ui.fragments.ProgressFragment
 
@@ -37,4 +38,12 @@ fun fieldsNotEmpty(text1: String, text2: String, toastMessage: String, context: 
 
 fun shortToast(context: Context, text: String) {
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+}
+
+fun show(view: View) {
+    view.visibility = View.VISIBLE
+}
+
+fun hide(view: View) {
+    view.visibility = View.INVISIBLE
 }

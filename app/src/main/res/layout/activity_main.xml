@@ -9,7 +9,7 @@
     android:background="#66330E">
 
     <FrameLayout
-        android:id="@+id/container_main"
+        android:id="@+id/container_new_word"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

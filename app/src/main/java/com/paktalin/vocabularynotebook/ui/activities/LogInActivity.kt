@@ -18,9 +18,9 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         mAuth = FirebaseAuth.getInstance()
-        btnLogIn!!.setOnClickListener({ logIn() })
-        btnSignUp!!.setOnClickListener({ signUp() })
-        btnRandomUser!!.setOnClickListener({ createRandomUser() })
+        btnLogIn!!.setOnClickListener { logIn() }
+        btnSignUp!!.setOnClickListener { signUp() }
+        btnRandomUser!!.setOnClickListener { createRandomUser() }
     }
 
     override fun onStart() {

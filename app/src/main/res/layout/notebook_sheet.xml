@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_notebook_sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container_main"
+    <fragment
+        android:id="@+id/fragmentNewWord"
+        android:name="com.paktalin.vocabularynotebook.ui.fragments.AddWordFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/small_margin"
-        android:layout_marginLeft="@dimen/small_margin"
-        android:layout_marginRight="@dimen/small_margin"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:paddingStart="@dimen/small_padding"
-        android:paddingLeft="@dimen/small_padding"
-        android:paddingEnd="@dimen/small_padding"
-        android:paddingRight="@dimen/small_padding"
-        android:paddingTop="@dimen/small_padding"
-        android:background="@drawable/sheet_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <fragment
-            android:id="@+id/fragmentAddWord"
-            android:name="com.paktalin.vocabularynotebook.ui.fragments.AddWordFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </FrameLayout>
+        android:layout_height="match_parent"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container_main"
+        app:layout_constraintTop_toBottomOf="@+id/container_new_word"
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
@@ -59,24 +39,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <FrameLayout
-        android:id="@+id/btnSubmitLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnSubmit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/small_margin"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_done_icon"
-            tools:ignore="ContentDescription" />
-    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

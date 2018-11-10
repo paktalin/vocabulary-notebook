@@ -9,9 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.paktalin.vocabularynotebook.R
 import com.paktalin.vocabularynotebook.firestoreitems.WordItem
+import com.paktalin.vocabularynotebook.hide
+import com.paktalin.vocabularynotebook.show
 import com.paktalin.vocabularynotebook.ui.activities.MainActivity
 import kotlinx.android.synthetic.main.fragment_new_word.*
-import kotlinx.android.synthetic.main.notebook_sheet.*
 
 abstract class WordFragment : Fragment() {
     protected lateinit var mainActivity: MainActivity
@@ -29,7 +30,8 @@ abstract class WordFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainActivity = activity as MainActivity
-        mainActivity.btnSubmit.setOnClickListener { submitWord() }
+
+        btnSubmit.setOnClickListener { submitWord() }
         word.addTextChangedListener(textWatcher {
             wordEmpty = word.text.isEmpty() })
 
@@ -40,8 +42,8 @@ abstract class WordFragment : Fragment() {
     }
 
     open fun updateButtons() {
-        if (!wordEmpty && !translationEmpty) showSubmitButton()
-        if (wordEmpty || translationEmpty) hideSubmitButton()
+        if (!wordEmpty && !translationEmpty) show(btnSubmit)
+        if (wordEmpty || translationEmpty) hide(btnSubmit)
     }
 
     private fun textWatcher(setEmpty: () -> Unit): TextWatcher {
@@ -52,13 +54,7 @@ abstract class WordFragment : Fragment() {
         }
     }
 
-    private fun showSubmitButton() {
-        mainActivity.btnSubmitLayout.visibility = View.VISIBLE }
-
-    protected fun hideSubmitButton() {
-        mainActivity.btnSubmitLayout.visibility = View.GONE }
-
-    fun submitWord() {
+    private fun submitWord() {
         mainActivity.hideKeyboardNotFromActivity(mainActivity)
 
         val word = word.text.toString()
